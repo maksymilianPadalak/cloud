@@ -9,6 +9,7 @@ import { RouterView, RouterLink } from 'vue-router'
       <RouterLink to="/simple-synth" class="nav-link" active-class="active"
         >Simple Synth</RouterLink
       >
+      <RouterLink to="/tuner" class="nav-link" active-class="active">Tuner</RouterLink>
     </nav>
     <RouterView />
   </div>

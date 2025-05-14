@@ -22,6 +22,11 @@ const router = createRouter({
       name: 'SimpleSynth',
       component: () => import('@/views/SimpleSynthView'),
     },
+    {
+      path: '/tuner',
+      name: 'Tuner',
+      component: () => import('@/views/TunerView/TunerView.vue'),
+    },
   ],
 })
 

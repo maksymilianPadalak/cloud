@@ -1,0 +1,1 @@
+export { useMicFrequency } from './useMicFrequency'
