@@ -1,30 +1,10 @@
 <template>
   <main>
-    <h1>HOME</h1>
+    <h1>Simple Synth</h1>
     <div class="keyboard">
-      <div class="key-col">
-        <button class="key" @keydown="playNote('C4')"></button><span class="key-label">C4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('D4')"></button><span class="key-label">D4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('Eb4')"></button><span class="key-label">Eb4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('F4')"></button><span class="key-label">F4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('G4')"></button><span class="key-label">G4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('Ab4')"></button><span class="key-label">Ab4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('Bb4')"></button><span class="key-label">Bb4</span>
-      </div>
-      <div class="key-col">
-        <button class="key" @keydown="playNote('C5')"></button><span class="key-label">C5</span>
+      <div v-for="n in notes" :key="n.note" class="key-col">
+        <button class="key" @keydown="playNote(n.note)" @pointerdown="playNote(n.note)"></button>
+        <span class="key-label">{{ n.label }}</span>
       </div>
     </div>
   </main>
@@ -36,16 +16,18 @@ import { onMounted, onBeforeUnmount } from 'vue'
 
 const synth = new Tone.PolySynth(Tone.Synth).toDestination()
 
-const noteMap: Record<string, string> = {
-  a: 'C4',
-  s: 'D4',
-  d: 'Eb4',
-  f: 'F4',
-  g: 'G4',
-  h: 'Ab4',
-  j: 'Bb4',
-  k: 'C5',
-}
+const notes = [
+  { note: 'C4', label: 'C4', key: 'a' },
+  { note: 'D4', label: 'D4', key: 's' },
+  { note: 'Eb4', label: 'Eb4', key: 'd' },
+  { note: 'F4', label: 'F4', key: 'f' },
+  { note: 'G4', label: 'G4', key: 'g' },
+  { note: 'Ab4', label: 'Ab4', key: 'h' },
+  { note: 'Bb4', label: 'Bb4', key: 'j' },
+  { note: 'C5', label: 'C5', key: 'k' },
+]
+
+const noteMap: Record<string, string> = Object.fromEntries(notes.map((n) => [n.key, n.note]))
 
 const playNote = (note: string) => {
   synth.triggerAttackRelease(note, '2n')
