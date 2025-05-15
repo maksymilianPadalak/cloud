@@ -1,5 +1,7 @@
 import { ref, onUnmounted, onMounted } from 'vue'
 
+const VOLUME_THRESHOLD = 130 // Adjust this value as needed
+
 const getFrequency = (
   analyser: AnalyserNode,
   dataArray: Uint8Array,
@@ -20,9 +22,14 @@ const getFrequency = (
     }
   }
 
-  // Convert index to frequency (based on sample rate and fftSize)
-  const freq = (maxIndex * audioCtx.sampleRate) / analyser.fftSize
-  frequency.value = Math.round(freq * 100) / 100
+  if (maxAmplitude > VOLUME_THRESHOLD) {
+    // Convert index to frequency (based on sample rate and fftSize)
+    const freq = (maxIndex * audioCtx.sampleRate) / analyser.fftSize
+    frequency.value = Math.round(freq * 100) / 100
+  } else {
+    frequency.value = null
+  }
+
   const animationFrameId = requestAnimationFrame(() =>
     getFrequency(analyser, dataArray, bufferLength, audioCtx, frequency, setAnimationFrameId),
   )

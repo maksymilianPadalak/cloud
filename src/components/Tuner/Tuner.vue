@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMicFrequency } from '@/utils/useMicFrequency'
+import { useMicFrequency } from '@/composables/useMicFrequency'
 
 const frequency = useMicFrequency()
 </script>
