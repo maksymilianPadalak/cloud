@@ -5,7 +5,7 @@ import type { RouteRecordRaw } from 'vue-router'
 export const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: HomeView,
   },
   {
