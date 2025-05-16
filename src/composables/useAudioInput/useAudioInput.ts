@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 export const useAudioInput = () => {
   let audioCtx: AudioContext | null = null
   let delay: DelayNode | null = null
+  let delaySecond: DelayNode | null = null
   const delayTime = ref(1)
 
   const getAudioInput = () => {
@@ -19,7 +20,15 @@ export const useAudioInput = () => {
         delay = audioCtx.createDelay(1.0)
         delay.delayTime.setValueAtTime(delayTime.value, audioCtx.currentTime)
 
-        audioCtx.createMediaStreamSource(stream).connect(delay).connect(audioCtx.destination)
+        delaySecond = audioCtx.createDelay(2.0)
+        delaySecond.delayTime.setValueAtTime(delayTime.value * 2, audioCtx.currentTime)
+
+        const source = audioCtx.createMediaStreamSource(stream)
+        source.connect(delay)
+        source.connect(delaySecond)
+        delay.connect(audioCtx.destination)
+        delaySecond.connect(audioCtx.destination)
+        source.connect(audioCtx.destination)
       })
   }
 
