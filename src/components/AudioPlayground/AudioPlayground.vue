@@ -1,12 +1,14 @@
 <template>
-  <div class="root">
-    <h1>PEDAL BOARD</h1>
-    <DelayPedal></DelayPedal>
+  <div>
+    <div class="root">
+      <h1>PEDAL BOARD</h1>
+      <DelayPedal></DelayPedal>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import DelayPedal from '../Effects/DelayPedal'
+import DelayPedal from '@/components/Effects/DelayPedal'
 </script>
 
 <style scoped>

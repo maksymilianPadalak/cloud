@@ -1,10 +1,14 @@
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useDelayStore } from '@/stores/delayStore'
+import { storeToRefs } from 'pinia'
+import { onMounted, onUnmounted, watch } from 'vue'
 
 export const useAudioInput = () => {
   let audioCtx: AudioContext | null = null
   let delay: DelayNode | null = null
   let delaySecond: DelayNode | null = null
-  const delayTime = ref(1)
+
+  const store = useDelayStore()
+  const { delayTime } = storeToRefs(store)
 
   const getAudioInput = () => {
     return navigator.mediaDevices
@@ -36,6 +40,10 @@ export const useAudioInput = () => {
     if (delay && audioCtx) {
       delay.delayTime.setValueAtTime(newValue, audioCtx.currentTime)
     }
+
+    if (delaySecond && audioCtx) {
+      delaySecond.delayTime.setValueAtTime(newValue * 2, audioCtx.currentTime)
+    }
   })
 
   onMounted(getAudioInput)
@@ -44,6 +52,4 @@ export const useAudioInput = () => {
       audioCtx.close()
     }
   })
-
-  return { delayTime }
 }
