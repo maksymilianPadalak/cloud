@@ -35,4 +35,8 @@ const effectParameter = defineModel('effectParameter', { default: 1, required: t
   align-items: center;
   justify-content: center;
 }
+
+.knob {
+  margin: 20px;
+}
 </style>

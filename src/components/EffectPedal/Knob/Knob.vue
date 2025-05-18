@@ -1,7 +1,7 @@
 <template>
   <div
     ref="knobRef"
-    class="radial-slider"
+    class="rootKnob"
     @mousedown="onPointerDown"
     @touchstart="onPointerDown"
     :style="dragging ? { userSelect: 'none' } : undefined"
@@ -9,7 +9,7 @@
     <div class="knob" :style="{ '--angle': `${angle}deg` }">
       <div class="teeth" />
       <div class="cap" />
-      <div class="indicator" />
+      <div :class="`indicator ${dragging ? 'dragging' : ''}`" />
     </div>
   </div>
 </template>
@@ -108,7 +108,7 @@ defineOptions({ name: 'EffectKnob' })
 </script>
 
 <style scoped>
-.radial-slider {
+.rootKnob {
   position: relative;
   height: 120px;
   display: flex;
@@ -117,9 +117,10 @@ defineOptions({ name: 'EffectKnob' })
   touch-action: none;
   transform: rotate(180deg);
 }
+
 .knob {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: #222;
   position: relative;
@@ -131,24 +132,29 @@ defineOptions({ name: 'EffectKnob' })
   justify-content: center;
 }
 
-.knob .cap {
-  width: 70px;
-  height: 70px;
+.cap {
+  width: 52px;
+  height: 52px;
   background: white;
   border-radius: 50%;
   position: absolute;
-  left: 5px;
-  top: 5px;
+  left: 4px;
+  top: 4px;
   box-shadow: 0 1px 4px #0006 inset;
 }
-.knob .indicator {
+
+.indicator {
   position: absolute;
   left: 50%;
-  top: 12px;
-  width: 8px;
-  height: 8px;
+  top: 10px;
+  width: 6px;
+  height: 6px;
   background: black;
   border-radius: 50%;
   transform: translateX(-50%);
+
+  &.dragging {
+    background: red;
+  }
 }
 </style>
