@@ -4,7 +4,7 @@
       <h1>Delay Pedal</h1>
       <div class="pedalContent">
         <h2>Value: {{ effectParameter }}</h2>
-        <Knob v-model:effect-parameter="effectParameter" />
+        <Knob v-model:effect-parameter="effectParameter" class="knobInput" />
       </div>
     </div>
   </div>
@@ -23,7 +23,6 @@ const effectParameter = defineModel('effectParameter', { default: 1, required: t
   align-items: center;
   justify-content: space-between;
   border: 5px solid lightblue;
-  margin: 100px;
   padding: 20px;
   height: 250px;
   border-radius: 20px;
@@ -36,7 +35,8 @@ const effectParameter = defineModel('effectParameter', { default: 1, required: t
   justify-content: center;
 }
 
-.knob {
+/* Investigate classes clashing */
+.knobInput {
   margin: 20px;
 }
 </style>

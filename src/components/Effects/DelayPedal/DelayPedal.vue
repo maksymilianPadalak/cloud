@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import EffectPedal from '@/components/EffectPedal'
-import { useAudioInput } from '@/composables/useAudioInput'
+import { useAudioInput } from '@/composables/useAmplifier'
 import { ref, watch } from 'vue'
 
 const { delayTime } = useAudioInput()

@@ -1,4 +1,4 @@
-export const delay = (audioContext: AudioContext, delayTime: number) => {
+export const useDelay = (audioContext: AudioContext, delayTime: number) => {
   const input = audioContext.createGain()
 
   const delay = audioContext.createDelay(1.0)

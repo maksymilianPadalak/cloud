@@ -1,14 +1,16 @@
 <template>
   <div>
     <div class="root">
-      <h1>PEDAL BOARD</h1>
-      <DelayPedal></DelayPedal>
+      <div class="musicGearWrapper">
+        <h2>Amplifier</h2>
+        <Amplifier />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import DelayPedal from '@/components/Effects/DelayPedal'
+import Amplifier from '../Amplifier/Amplifier.vue'
 </script>
 
 <style scoped>
@@ -18,5 +20,14 @@ import DelayPedal from '@/components/Effects/DelayPedal'
   align-items: center;
   justify-content: center;
   margin: 100px;
+  gap: 50px;
+}
+
+.musicGearWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 </style>
