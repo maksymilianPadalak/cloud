@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
+import EffectPedal from '@/components/EffectPedal'
 import { useAudioInput } from '@/composables/useAudioInput'
 import { ref, watch } from 'vue'
 

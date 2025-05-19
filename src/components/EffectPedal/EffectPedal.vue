@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import Knob from './Knob'
+import Knob from '@/components/Knob'
 
 const effectParameter = defineModel('effectParameter', { default: 1, required: true })
 </script>

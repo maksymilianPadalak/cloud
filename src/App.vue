@@ -9,5 +9,3 @@ import AppNavbar from '@/components/Navigation/Navigation.vue'
     <RouterView />
   </div>
 </template>
-
-<!-- Styles for navigation have been moved to AppNavbar.vue -->

@@ -1,10 +1,10 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { delay } from './effects/delay'
 
 export const useAudioInput = () => {
   let audioCtx: AudioContext | null = null
-  let delay: DelayNode | null = null
-  let delaySecond: DelayNode | null = null
-  let delayThird: DelayNode | null = null
+  let delayNode1: DelayNode | null = null
+  let delayNode2: DelayNode | null = null
 
   const delayTime = ref(1)
 
@@ -19,37 +19,29 @@ export const useAudioInput = () => {
       })
       .then((stream) => {
         audioCtx = new AudioContext()
-        delay = audioCtx.createDelay(1.0)
-        delay.delayTime.setValueAtTime(delayTime.value, audioCtx.currentTime)
-
-        delaySecond = audioCtx.createDelay(2.0)
-        delaySecond.delayTime.setValueAtTime(delayTime.value * 2, audioCtx.currentTime)
-
-        delayThird = audioCtx.createDelay(3.0)
-        delayThird.delayTime.setValueAtTime(delayTime.value * 3, audioCtx.currentTime)
 
         const source = audioCtx.createMediaStreamSource(stream)
-        source.connect(delay)
-        source.connect(delaySecond)
-        source.connect(delayThird)
-        delay.connect(audioCtx.destination)
-        delaySecond.connect(audioCtx.destination)
-        delayThird.connect(audioCtx.destination)
+        const {
+          input,
+          output,
+          delay: delayNode1Instance,
+          delaySecond: delayNode2Instance,
+        } = delay(audioCtx!, delayTime.value)
+
+        delayNode1 = delayNode1Instance
+        delayNode2 = delayNode2Instance
+
+        source.connect(input)
         source.connect(audioCtx.destination)
+        output.connect(audioCtx.destination)
       })
   }
 
-  watch(delayTime, (newValue) => {
-    if (delay && audioCtx) {
-      delay.delayTime.setValueAtTime(newValue, audioCtx.currentTime)
-    }
-
-    if (delaySecond && audioCtx) {
-      delaySecond.delayTime.setValueAtTime(newValue * 2, audioCtx.currentTime)
-    }
-
-    if (delayThird && audioCtx) {
-      delayThird.delayTime.setValueAtTime(newValue * 3, audioCtx.currentTime)
+  // Watch for changes and update delay times
+  watch(delayTime, (val) => {
+    if (delayNode1 && delayNode2 && audioCtx) {
+      delayNode1.delayTime.setValueAtTime(val, audioCtx.currentTime)
+      delayNode2.delayTime.setValueAtTime(val * 2, audioCtx.currentTime)
     }
   })
 
