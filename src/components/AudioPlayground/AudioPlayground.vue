@@ -5,12 +5,17 @@
         <h2>Amplifier</h2>
         <Amplifier />
       </div>
+      <div class="musicGearWrapper">
+        <h2>Reverb Pedal</h2>
+        <ReverbPedal />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Amplifier from '../Amplifier/Amplifier.vue'
+import Amplifier from '@/components/Amplifier'
+import ReverbPedal from '@/components/Effects/ReverbPedal'
 </script>
 
 <style scoped>
