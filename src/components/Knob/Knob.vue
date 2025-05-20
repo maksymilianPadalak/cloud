@@ -15,7 +15,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount, defineModel, defineOptions } from 'vue'
+import { ref, watch, onBeforeUnmount, defineModel, defineOptions, defineProps } from 'vue'
+
+const { min, max } = defineProps({
+  min: { type: Number, default: 0 },
+  max: { type: Number, default: 11 },
+})
 
 const effectParameter = defineModel('effectParameter', { default: 1, required: true })
 
@@ -28,8 +33,8 @@ const maxAngle = 320
 const angleRange = maxAngle - minAngle
 
 // Map effectParameter (0-1) to angle (minAngle-maxAngle)
-const paramToAngle = (param: number) => minAngle + param * angleRange
-const angleToParam = (ang: number) => (ang - minAngle) / angleRange
+const paramToAngle = (param: number) => minAngle + ((param - min) / (max - min)) * angleRange
+const angleToParam = (ang: number) => ((ang - minAngle) / angleRange) * (max - min) + min
 
 // Keep angle in sync with v-model
 watch(
