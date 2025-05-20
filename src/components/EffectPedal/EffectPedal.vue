@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import Knob from '@/components/Knob'
 
-const effectParameter = defineModel('effectParameter', { default: 1, required: true })
+const effectParameter = defineModel('effectParameter', { default: 5.5, required: true })
 </script>
 
 <style scoped>

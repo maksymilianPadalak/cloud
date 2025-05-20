@@ -22,21 +22,19 @@ const { min, max } = defineProps({
   max: { type: Number, default: 11 },
 })
 
-const effectParameter = defineModel('effectParameter', { default: 1, required: true })
+const effectParameter = defineModel('effectParameter', { default: 5.5, required: true })
 
 const knobRef = ref<HTMLElement | null>(null)
 const dragging = ref(false)
-const angle = ref(40) // initial angle
+const angle = ref(40)
 
 const minAngle = 40
 const maxAngle = 320
 const angleRange = maxAngle - minAngle
 
-// Map effectParameter (0-1) to angle (minAngle-maxAngle)
 const paramToAngle = (param: number) => minAngle + ((param - min) / (max - min)) * angleRange
 const angleToParam = (ang: number) => ((ang - minAngle) / angleRange) * (max - min) + min
 
-// Keep angle in sync with v-model
 watch(
   () => effectParameter.value,
   (val) => {
@@ -60,12 +58,10 @@ function getAngleFromPointer(x: number, y: number, center: [number, number]) {
   const dy = y - cy
   const radians = Math.atan2(dy, dx)
   let deg = radians * (180 / Math.PI)
-  deg = deg + 90 // rotate so 0 is at top
+  deg = deg + 90
   if (deg < 0) deg += 360
-  // Adjust for 180deg container rotation
   deg = deg - 180
   if (deg < 0) deg += 360
-  // Clamp to allowed range
   const clamped = Math.max(minAngle, Math.min(maxAngle, deg))
   return clamped
 }
@@ -82,7 +78,6 @@ function onPointerMove(e: MouseEvent | TouchEvent, force = false) {
   }
   const center = getElementCenter(knobRef.value)
   const newAngle = getAngleFromPointer(clientX, clientY, center)
-  // Always update if force is true (for click), otherwise use threshold
   if (force || Math.abs(newAngle - angle.value) < 60) {
     angle.value = newAngle
   }
@@ -102,7 +97,7 @@ function onPointerDown(e: MouseEvent | TouchEvent) {
   window.addEventListener('touchmove', onPointerMove)
   window.addEventListener('mouseup', onPointerUp)
   window.addEventListener('touchend', onPointerUp)
-  onPointerMove(e, true) // force update on click
+  onPointerMove(e, true)
 }
 
 onBeforeUnmount(() => {
