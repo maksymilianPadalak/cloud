@@ -48,6 +48,20 @@ export const useAmplifier = () => {
       .then((stream) => {
         const source = audioContext.createMediaStreamSource(stream)
 
+        // Merge input to mono and duplicate to stereo
+        const splitter = audioContext.createChannelSplitter(2)
+        const merger = audioContext.createChannelMerger(2)
+        const monoGain = audioContext.createGain()
+
+        source.connect(splitter)
+        splitter.connect(monoGain, 0)
+        splitter.connect(monoGain, 1)
+        monoGain.connect(merger, 0, 0)
+        monoGain.connect(merger, 0, 1)
+
+        // Use merger as the new input for the effects chain
+        // Replace 'source' with 'merger' below
+
         const bassNode = audioContext.createBiquadFilter()
         const midNode = audioContext.createBiquadFilter()
         const trebleNode = audioContext.createBiquadFilter()
@@ -66,7 +80,7 @@ export const useAmplifier = () => {
 
         const gainNode = audioContext.createGain()
 
-        source.connect(bassNode)
+        merger.connect(bassNode)
         bassNode.connect(midNode)
         midNode.connect(trebleNode)
         trebleNode.connect(gainNode)
