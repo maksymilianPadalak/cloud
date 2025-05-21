@@ -1,0 +1,1 @@
+export { createImpulseResponse } from './createImpulsReponse'
