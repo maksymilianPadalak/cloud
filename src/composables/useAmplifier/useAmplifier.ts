@@ -1,34 +1,9 @@
 import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
+import { createImpulseResponse } from './utils/createImpulseResponse/createImpulsReponse'
 
 export const useAmplifier = () => {
   const audioContext = new AudioContext()
   let convolverNode: ConvolverNode
-
-  const createImpulseResponse = (
-    roomSize: number,
-    duration: number,
-    decay: number,
-    materialAbsorption = 0.5,
-  ) => {
-    const sampleRate = audioContext.sampleRate
-    const normalizedRoomSize = Math.max(0, Math.min(1, roomSize))
-    const baseDuration = duration ?? 0.5 + normalizedRoomSize * 9.5
-    const length = Math.round(sampleRate * baseDuration)
-    const baseDecay = decay ?? (3 - normalizedRoomSize * 1.5) * (0.5 + materialAbsorption * 0.5)
-
-    const impulse = audioContext.createBuffer(2, length, sampleRate)
-    const left = impulse.getChannelData(0)
-    const right = impulse.getChannelData(1)
-
-    for (let i = 0; i < length; i++) {
-      const n = length - i
-      const t = n / length
-      left[i] = (Math.random() * 2 - 1) * Math.pow(t, baseDecay)
-      right[i] = (Math.random() * 2 - 1) * Math.pow(t, baseDecay)
-    }
-
-    return impulse
-  }
 
   const gain = ref(5.5)
   const bass = ref(5.5)
@@ -48,7 +23,6 @@ export const useAmplifier = () => {
       .then((stream) => {
         const source = audioContext.createMediaStreamSource(stream)
 
-        // Merge input to mono and duplicate to stereo
         const splitter = audioContext.createChannelSplitter(2)
         const merger = audioContext.createChannelMerger(2)
         const monoGain = audioContext.createGain()
@@ -59,15 +33,12 @@ export const useAmplifier = () => {
         monoGain.connect(merger, 0, 0)
         monoGain.connect(merger, 0, 1)
 
-        // Use merger as the new input for the effects chain
-        // Replace 'source' with 'merger' below
-
         const bassNode = audioContext.createBiquadFilter()
         const midNode = audioContext.createBiquadFilter()
         const trebleNode = audioContext.createBiquadFilter()
 
         convolverNode = audioContext.createConvolver()
-        convolverNode.buffer = createImpulseResponse(10, 2, 1)
+        convolverNode.buffer = createImpulseResponse(audioContext, 10, 2, 1)
 
         bassNode.type = 'lowshelf'
         bassNode.frequency.setValueAtTime(200, audioContext.currentTime)
