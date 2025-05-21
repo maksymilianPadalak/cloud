@@ -90,6 +90,7 @@ export const useAmplifier = () => {
 
         watchEffect(() => {
           convolverNode.buffer = createImpulseResponse(
+            audioContext,
             reverb.decayTime,
             reverb.decayRate,
             reverb.roomSize,
