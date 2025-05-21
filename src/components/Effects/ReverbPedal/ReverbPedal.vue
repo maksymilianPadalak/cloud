@@ -1,13 +1,10 @@
 <template>
-  <div class="root">
-    <h1>Reverb Pedal</h1>
-    <div class="pedalContent">
-      <h2>Decay Time: {{ reverb.decayTime }}</h2>
-      <Knob v-model:effect-parameter="reverb.decayTime" />
-      <h2>Decay Rate: {{ reverb.decayRate }}</h2>
-      <Knob v-model:effect-parameter="reverb.decayRate" />
-      <h2>Room Size: {{ reverb.roomSize }}</h2>
-      <Knob v-model:effect-parameter="reverb.roomSize" />
+  <div>
+    <div class="root">
+      <div class="pedalContent">
+        <h2>Decay Time: {{ reverb.decay }}</h2>
+        <Knob v-model:effect-parameter="reverb.decay" />
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +22,11 @@ const { reverb } = useAmplifier()
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 5px solid red;
+  padding: 40px;
+  gap: 20px;
+  border-radius: 20px;
+  width: 300px;
 }
 
 .pedalContent {
@@ -32,5 +34,6 @@ const { reverb } = useAmplifier()
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
 }
 </style>

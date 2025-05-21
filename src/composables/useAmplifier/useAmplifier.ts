@@ -9,7 +9,7 @@ export const useAmplifier = () => {
   const bass = ref(5.5)
   const mid = ref(5.5)
   const treble = ref(5.5)
-  const reverb = reactive({ decayTime: 10, decayRate: 1, roomSize: 1 })
+  const reverb = reactive({ decay: 5.5 })
 
   const getAudioInput = () => {
     navigator.mediaDevices
@@ -38,7 +38,7 @@ export const useAmplifier = () => {
         const trebleNode = audioContext.createBiquadFilter()
 
         convolverNode = audioContext.createConvolver()
-        convolverNode.buffer = createImpulseResponse(audioContext, 10, 2, 1)
+        convolverNode.buffer = createImpulseResponse(audioContext, 10)
 
         bassNode.type = 'lowshelf'
         bassNode.frequency.setValueAtTime(200, audioContext.currentTime)
@@ -89,12 +89,7 @@ export const useAmplifier = () => {
         })
 
         watchEffect(() => {
-          convolverNode.buffer = createImpulseResponse(
-            audioContext,
-            reverb.decayTime,
-            reverb.decayRate,
-            reverb.roomSize,
-          )
+          convolverNode.buffer = createImpulseResponse(audioContext, reverb.decay)
         })
       })
   }
