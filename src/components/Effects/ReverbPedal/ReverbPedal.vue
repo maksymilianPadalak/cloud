@@ -2,7 +2,7 @@
   <div>
     <div class="root">
       <div class="pedalContent">
-        <h2>Decay Time: {{ reverb.decay }}</h2>
+        <h2>Decay: {{ reverb.decay }}</h2>
         <Knob v-model:effect-parameter="reverb.decay" />
       </div>
     </div>

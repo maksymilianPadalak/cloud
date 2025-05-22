@@ -55,7 +55,7 @@ export const useAmplifier = () => {
         bassNode.connect(midNode)
         midNode.connect(trebleNode)
         trebleNode.connect(gainNode)
-        trebleNode.connect(convolverNode)
+        gainNode.connect(convolverNode)
         convolverNode.connect(audioContext.destination)
         gainNode.connect(audioContext.destination)
 
