@@ -2,7 +2,7 @@
   <div>
     <div class="root">
       <div class="pedalContent">
-        <h2 class="text-white">Decay: {{ reverb.decay }}</h2>
+        <h2>Decay: {{ reverb.decay }}</h2>
         <Knob v-model:effect-parameter="reverb.decay" />
       </div>
     </div>
@@ -39,9 +39,5 @@ const { reverb } = useAmplifier()
   align-items: center;
   justify-content: center;
   gap: 20px;
-}
-
-.text-white {
-  color: white;
 }
 </style>
