@@ -1,24 +1,9 @@
 <template>
   <div class="pedalBoard">
-    <div class="pedalWrapper">
-      <h2>Reverb Pedal</h2>
-      <ReverbPedal />
-    </div>
-
-    <div class="pedalWrapper">
-      <h2>Delay Pedal</h2>
-      <DelayPedal />
-    </div>
-
-    <div class="pedalWrapper">
-      <h2>Chorus Pedal</h2>
-      <ChorusPedal />
-    </div>
-
-    <div class="pedalWrapper">
-      <h2>Distortion Pedal</h2>
-      <DistortionPedal />
-    </div>
+    <ReverbPedal />
+    <DelayPedal />
+    <ChorusPedal />
+    <DistortionPedal />
   </div>
 </template>
 

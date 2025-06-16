@@ -1,19 +1,17 @@
 <template>
   <div>
     <div class="root">
-      <h1>Delay Pedal</h1>
-      <div class="pedalContent">
-        <h2>Value: {{ effectParameter }}</h2>
-        <Knob v-model:effect-parameter="effectParameter" class="knobInput" />
-      </div>
+      <h2>{{ title }}</h2>
+      <hr />
+      <slot />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Knob from '@/components/Knob'
-
-const effectParameter = defineModel('effectParameter', { default: 5.5, required: true })
+defineProps<{
+  title: string
+}>()
 </script>
 
 <style scoped>
@@ -21,22 +19,17 @@ const effectParameter = defineModel('effectParameter', { default: 5.5, required:
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   border: 5px solid lightblue;
-  padding: 20px;
-  height: 250px;
+  padding: 40px;
   border-radius: 20px;
+  width: 300px;
+  height: 500px;
 }
 
-.pedalContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Investigate classes clashing */
-.knobInput {
-  margin: 20px;
+hr {
+  border-top: 3px solid lightblue;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 </style>
