@@ -7,23 +7,26 @@
 
     <div class="pedalWrapper">
       <h2>Delay Pedal</h2>
-      <ReverbPedal />
+      <DelayPedal />
     </div>
 
     <div class="pedalWrapper">
       <h2>Chorus Pedal</h2>
-      <ReverbPedal />
+      <ChorusPedal />
     </div>
 
     <div class="pedalWrapper">
       <h2>Distortion Pedal</h2>
-      <ReverbPedal />
+      <DistortionPedal />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import ReverbPedal from '@/components/Effects/ReverbPedal'
+import DelayPedal from '@/components/Effects/DelayPedal'
+import ChorusPedal from '@/components/Effects/ChorusPedal'
+import DistortionPedal from '@/components/Effects/DistortionPedal'
 </script>
 
 <style scoped>
