@@ -37,6 +37,7 @@ const master = ref(5.5)
 </script>
 
 <style scoped>
+/* TODO: Adjust the UI for mobile/tablet resolutions */
 .root {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

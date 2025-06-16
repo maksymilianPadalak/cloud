@@ -1,21 +1,18 @@
 <template>
   <div>
     <div class="root">
-      <div class="musicGearWrapper">
+      <div class="amplifierWrapper">
         <h2>Amplifier</h2>
         <Amplifier />
       </div>
-      <div class="musicGearWrapper">
-        <h2>Reverb Pedal</h2>
-        <ReverbPedal />
-      </div>
+      <PedalBoard />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Amplifier from '@/components/Amplifier'
-import ReverbPedal from '@/components/Effects/ReverbPedal'
+import PedalBoard from '@/components/PedalBoard/PedalBoard.vue'
 </script>
 
 <style scoped>
@@ -28,7 +25,7 @@ import ReverbPedal from '@/components/Effects/ReverbPedal'
   gap: 50px;
 }
 
-.musicGearWrapper {
+.amplifierWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;

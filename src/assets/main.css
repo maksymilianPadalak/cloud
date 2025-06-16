@@ -1,3 +1,9 @@
+:root {
+  /* TODO: Investigate why this is not working */
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 1400px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

@@ -22,7 +22,7 @@ const { reverb } = useAmplifier()
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 5px solid lightblue;
+  border: 5px solid lightgreen;
   padding: 40px;
   gap: 20px;
   border-radius: 20px;
