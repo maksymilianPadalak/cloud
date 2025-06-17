@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Delay Pedal" :class="$style.pedal">
+  <EffectPedal title="Delay Pedal" :class="$style.pedal" @toggle-power="togglePower">
     <div :class="sharedStyles.pedalContent">
       <h2>Time: {{ time }}</h2>
       <Knob v-model:effect-parameter="time" />
@@ -17,6 +17,10 @@ import sharedStyles from '../shared.module.css'
 
 const time = ref(5.5)
 const feedback = ref(5.5)
+
+const togglePower = (isPowerOn: boolean) => {
+  console.log(isPowerOn)
+}
 </script>
 
 <style module>

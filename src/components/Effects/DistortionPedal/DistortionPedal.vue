@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Distortion Pedal" :class="$style.pedal">
+  <EffectPedal title="Distortion Pedal" :class="$style.pedal" @toggle-power="togglePower">
     <div :class="sharedStyles.pedalContent">
       <h2>Drive: {{ drive }}</h2>
       <Knob v-model:effect-parameter="drive" />
@@ -17,6 +17,10 @@ import sharedStyles from '../shared.module.css'
 
 const drive = ref(5.5)
 const tone = ref(5.5)
+
+const togglePower = (isPowerOn: boolean) => {
+  console.log(isPowerOn)
+}
 </script>
 
 <style module>

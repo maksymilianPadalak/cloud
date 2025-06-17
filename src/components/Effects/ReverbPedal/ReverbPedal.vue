@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Reverb Pedal" :class="$style.pedal">
+  <EffectPedal title="Reverb Pedal" :class="$style.pedal" @toggle-power="togglePower">
     <div :class="sharedStyles.pedalContent">
       <h2>Decay: {{ reverb.decay }}</h2>
       <Knob v-model:effect-parameter="reverb.decay" />
@@ -14,6 +14,10 @@ import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
 import sharedStyles from '../shared.module.css'
 
 const { reverb } = useAmplifier()
+
+const togglePower = (isPowerOn: boolean) => {
+  console.log(isPowerOn)
+}
 </script>
 
 <style module>

@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Chorus Pedal" :class="$style.pedal">
+  <EffectPedal title="Chorus Pedal" :class="$style.pedal" @toggle-power="togglePower">
     <div :class="sharedStyles.pedalContent">
       <h2>Rate: {{ rate }}</h2>
       <Knob v-model:effect-parameter="rate" />
@@ -17,6 +17,10 @@ import sharedStyles from '../shared.module.css'
 
 const rate = ref(5.5)
 const depth = ref(5.5)
+
+const togglePower = (isPowerOn: boolean) => {
+  console.log(isPowerOn)
+}
 </script>
 
 <style module>
