@@ -129,6 +129,12 @@ defineOptions({ name: 'EffectKnob' })
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+
+  &:hover {
+    transform: rotate(var(--angle, 40deg)) scale(1.05);
+  }
 }
 
 .cap {

@@ -22,7 +22,7 @@
     </div>
     <div :class="$style.powerWrapper">
       <h3>Power</h3>
-      <PowerButton @toggle-power="onPowerToggle" />
+      <PowerButton @toggle-power="onPowerToggle" :class="$style.powerButton" />
     </div>
   </div>
 </template>
@@ -72,5 +72,9 @@ const master = ref(5.5)
 
 .knobInput {
   margin: 10px;
+}
+
+.powerButton {
+  margin-top: 10px;
 }
 </style>

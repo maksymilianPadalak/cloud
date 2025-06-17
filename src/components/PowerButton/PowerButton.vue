@@ -35,14 +35,14 @@ const togglePower = () => {
   user-select: none;
   transition:
     background-color 0.2s ease,
-    font-size 0.2s ease;
+    transform 0.2s ease;
 
   &.isPowerOn {
     background-color: lightcoral;
   }
 
   &:hover {
-    font-size: 55px;
+    transform: scale(1.05);
   }
 }
 </style>
