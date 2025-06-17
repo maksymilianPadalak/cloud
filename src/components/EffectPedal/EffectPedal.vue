@@ -36,7 +36,7 @@ const onPowerToggle = (isPowerOn: boolean) => {
   border: 5px solid lightblue;
   padding: 40px;
   border-radius: 20px;
-  width: 300px;
+  width: 500px;
   height: 500px;
 }
 

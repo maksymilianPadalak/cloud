@@ -19,19 +19,13 @@ import DistortionPedal from '@/components/Effects/DistortionPedal'
 
 <style module>
 .pedalBoard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 50px;
   padding: 40px;
   border: 5px solid lightgray;
   border-radius: 20px;
-
-  @media screen and (min-width: 1400px) {
-    flex-direction: row;
-    gap: 20px;
-  }
 }
 
 .pedalWrapper {
