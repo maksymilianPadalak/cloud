@@ -20,15 +20,24 @@
       <h3>Master: {{ master }}</h3>
       <Knob v-model:effect-parameter="master" :class="$style.knobInput" />
     </div>
+    <div :class="$style.powerWrapper">
+      <h3>Power</h3>
+      <PowerButton @toggle-power="onPowerToggle" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Knob from '@/components/Knob/Knob.vue'
+import PowerButton from '@/components/PowerButton'
 import { useAmplifier } from '@/composables/useAmplifier'
 import { ref } from 'vue'
 
 const { gain, bass, mid, treble } = useAmplifier()
+
+const onPowerToggle = (isPowerOn: boolean) => {
+  console.log(isPowerOn)
+}
 
 //TODO: Create the master volume control logic after UI is developed
 const master = ref(5.5)
@@ -38,16 +47,23 @@ const master = ref(5.5)
 /* TODO: Adjust the UI for mobile/tablet resolutions */
 .root {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
   border: 5px solid burlywood;
   height: 250px;
   border-radius: 20px;
-  width: 800px;
+  width: 900px;
   padding: 20px;
 }
 
 .knobWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.powerWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
