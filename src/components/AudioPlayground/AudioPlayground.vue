@@ -1,21 +1,19 @@
 <template>
-  <div>
-    <div class="root">
-      <div class="amplifierWrapper">
-        <h2>Amplifier</h2>
-        <Amplifier />
-      </div>
-      <PedalBoard />
+  <div :class="$style.root">
+    <div :class="$style.amplifierWrapper">
+      <h2>Amplifier</h2>
+      <Amplifier />
     </div>
+    <PedalBoard />
   </div>
 </template>
 
 <script setup lang="ts">
-import Amplifier from '@/components/Amplifier'
+import Amplifier from '@/components/Amplifier/Amplifier.vue'
 import PedalBoard from '@/components/PedalBoard/PedalBoard.vue'
 </script>
 
-<style scoped>
+<style module>
 .root {
   display: flex;
   flex-direction: column;

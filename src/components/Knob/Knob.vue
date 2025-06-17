@@ -1,15 +1,15 @@
 <template>
   <div
     ref="knobRef"
-    class="rootKnob"
+    :class="$style.knobContainer"
     @mousedown="onPointerDown"
     @touchstart="onPointerDown"
     :style="dragging ? { userSelect: 'none' } : undefined"
   >
-    <div class="knob" :style="{ '--angle': `${angle}deg` }">
-      <div class="teeth" />
-      <div class="cap" />
-      <div :class="`indicator ${dragging ? 'dragging' : ''}`" />
+    <div :class="$style.knob" :style="{ '--angle': `${angle}deg` }">
+      <div :class="$style.teeth" />
+      <div :class="$style.cap" />
+      <div :class="[$style.indicator, { [$style.dragging]: dragging }]" />
     </div>
   </div>
 </template>
@@ -107,8 +107,8 @@ onBeforeUnmount(() => {
 defineOptions({ name: 'EffectKnob' })
 </script>
 
-<style scoped>
-.rootKnob {
+<style module>
+.knobContainer {
   position: relative;
   display: flex;
   align-items: center;
@@ -151,9 +151,9 @@ defineOptions({ name: 'EffectKnob' })
   background: black;
   border-radius: 50%;
   transform: translateX(-50%);
+}
 
-  &.dragging {
-    background: red;
-  }
+.indicator.dragging {
+  background: red;
 }
 </style>

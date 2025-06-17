@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <div class="root">
-      <h2>{{ title }}</h2>
-      <hr />
-      <slot />
-    </div>
+  <div :class="$style.root">
+    <h2>{{ title }}</h2>
+    <hr :class="$style.separator" />
+    <slot />
   </div>
 </template>
 
@@ -14,7 +12,7 @@ defineProps<{
 }>()
 </script>
 
-<style scoped>
+<style module>
 .root {
   display: flex;
   flex-direction: column;
@@ -26,7 +24,7 @@ defineProps<{
   height: 500px;
 }
 
-hr {
+.separator {
   border-top: 3px solid lightblue;
   width: 100%;
   margin-top: 10px;

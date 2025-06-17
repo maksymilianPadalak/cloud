@@ -1,10 +1,14 @@
 <template>
-  <main>
-    <h1>Simple Synth</h1>
-    <div class="keyboard">
-      <div v-for="n in notes" :key="n.note" class="key-col">
-        <button class="key" @keydown="playNote(n.note)" @pointerdown="playNote(n.note)"></button>
-        <span class="key-label">{{ n.label }}</span>
+  <main :class="$style.main">
+    <h1 :class="$style.title">Simple Synth</h1>
+    <div :class="$style.keyboard">
+      <div v-for="n in notes" :key="n.note" :class="$style.keyCol">
+        <button
+          :class="$style.key"
+          @keydown="playNote(n.note)"
+          @pointerdown="playNote(n.note)"
+        ></button>
+        <span :class="$style.keyLabel">{{ n.label }}</span>
       </div>
     </div>
   </main>
@@ -49,8 +53,8 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped>
-main {
+<style module>
+.main {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,13 +76,13 @@ main {
   gap: 1rem;
 }
 
-.key-col {
+.keyCol {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.key-label {
+.keyLabel {
   margin-top: 0.5rem;
   font-size: 1.1rem;
   color: #888;
@@ -153,7 +157,7 @@ main {
   transform: scale(0.98);
 }
 
-h1 {
+.title {
   color: #222;
   font-family: 'Inter', 'Montserrat', Arial, sans-serif;
   font-size: 2rem;

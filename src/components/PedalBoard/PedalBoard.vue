@@ -1,5 +1,5 @@
 <template>
-  <div class="pedalBoard">
+  <div :class="$style.pedalBoard">
     <ReverbPedal />
     <DelayPedal />
     <ChorusPedal />
@@ -14,7 +14,7 @@ import ChorusPedal from '@/components/Effects/ChorusPedal'
 import DistortionPedal from '@/components/Effects/DistortionPedal'
 </script>
 
-<style scoped>
+<style module>
 .pedalBoard {
   display: flex;
   align-items: center;

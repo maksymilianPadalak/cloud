@@ -1,10 +1,10 @@
 <template>
-  <div class="tuner-card">
-    <div class="tuner-title">Tuner</div>
-    <div v-if="frequency !== null" class="frequency-display">
-      {{ frequency }} <span class="hz">Hz</span>
+  <div :class="$style.tunerCard">
+    <div :class="$style.tunerTitle">Tuner</div>
+    <div v-if="frequency !== null" :class="$style.frequencyDisplay">
+      {{ frequency }} <span :class="$style.hz">Hz</span>
     </div>
-    <div v-else class="listening">Listening...</div>
+    <div v-else :class="$style.listening">Listening...</div>
   </div>
 </template>
 
@@ -14,8 +14,8 @@ import { useMicFrequency } from '@/composables/useMicFrequency'
 const frequency = useMicFrequency()
 </script>
 
-<style scoped>
-.tuner-card {
+<style module>
+.tunerCard {
   max-width: 350px;
   margin: 60px auto;
   padding: 2.5rem 2rem 2rem 2rem;
@@ -28,14 +28,14 @@ const frequency = useMicFrequency()
   color: #fff;
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
-.tuner-title {
+.tunerTitle {
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   margin-bottom: 1.5rem;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-.frequency-display {
+.frequencyDisplay {
   font-size: 3.5rem;
   font-weight: 800;
   color: #00eaff;

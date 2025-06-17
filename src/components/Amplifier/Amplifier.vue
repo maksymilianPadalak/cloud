@@ -1,32 +1,30 @@
 <template>
-  <div>
-    <div class="root">
-      <div class="knobWrapper">
-        <h3>Gain: {{ gain }}</h3>
-        <Knob v-model:effect-parameter="gain" class="knobInput" />
-      </div>
-      <div class="knobWrapper">
-        <h3>Bass: {{ bass }}</h3>
-        <Knob v-model:effect-parameter="bass" class="knobInput" />
-      </div>
-      <div class="knobWrapper">
-        <h3>Mid: {{ mid }}</h3>
-        <Knob v-model:effect-parameter="mid" class="knobInput" />
-      </div>
-      <div class="knobWrapper">
-        <h3>Treble: {{ treble }}</h3>
-        <Knob v-model:effect-parameter="treble" class="knobInput" />
-      </div>
-      <div class="knobWrapper">
-        <h3>Master: {{ master }}</h3>
-        <Knob v-model:effect-parameter="master" class="knobInput" />
-      </div>
+  <div :class="$style.root">
+    <div :class="$style.knobWrapper">
+      <h3>Gain: {{ gain }}</h3>
+      <Knob v-model:effect-parameter="gain" :class="$style.knobInput" />
+    </div>
+    <div :class="$style.knobWrapper">
+      <h3>Bass: {{ bass }}</h3>
+      <Knob v-model:effect-parameter="bass" :class="$style.knobInput" />
+    </div>
+    <div :class="$style.knobWrapper">
+      <h3>Mid: {{ mid }}</h3>
+      <Knob v-model:effect-parameter="mid" :class="$style.knobInput" />
+    </div>
+    <div :class="$style.knobWrapper">
+      <h3>Treble: {{ treble }}</h3>
+      <Knob v-model:effect-parameter="treble" :class="$style.knobInput" />
+    </div>
+    <div :class="$style.knobWrapper">
+      <h3>Master: {{ master }}</h3>
+      <Knob v-model:effect-parameter="master" :class="$style.knobInput" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Knob from '@/components/Knob'
+import Knob from '@/components/Knob/Knob.vue'
 import { useAmplifier } from '@/composables/useAmplifier'
 import { ref } from 'vue'
 
@@ -36,7 +34,7 @@ const { gain, bass, mid, treble } = useAmplifier()
 const master = ref(5.5)
 </script>
 
-<style scoped>
+<style module>
 /* TODO: Adjust the UI for mobile/tablet resolutions */
 .root {
   display: grid;
