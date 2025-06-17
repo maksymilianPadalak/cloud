@@ -40,7 +40,7 @@ const master = ref(5.5)
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   align-items: center;
-  border: 5px solid lightblue;
+  border: 5px solid burlywood;
   height: 250px;
   border-radius: 20px;
   width: 800px;

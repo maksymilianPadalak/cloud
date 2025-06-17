@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Reverb Pedal">
+  <EffectPedal title="Reverb Pedal" :class="$style.pedal">
     <div :class="sharedStyles.pedalContent">
       <h2>Decay: {{ reverb.decay }}</h2>
       <Knob v-model:effect-parameter="reverb.decay" />
@@ -15,3 +15,9 @@ import sharedStyles from '../shared.module.css'
 
 const { reverb } = useAmplifier()
 </script>
+
+<style module>
+.pedal {
+  border-color: lightskyblue;
+}
+</style>

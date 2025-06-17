@@ -1,9 +1,12 @@
 <template>
-  <div :class="$style.pedalBoard">
-    <ReverbPedal />
-    <DelayPedal />
-    <ChorusPedal />
-    <DistortionPedal />
+  <div :class="$style.pedalWrapper">
+    <h2>Pedal Board</h2>
+    <div :class="$style.pedalBoard">
+      <ReverbPedal />
+      <DelayPedal />
+      <ChorusPedal />
+      <DistortionPedal />
+    </div>
   </div>
 </template>
 
@@ -22,7 +25,7 @@ import DistortionPedal from '@/components/Effects/DistortionPedal'
   flex-direction: column;
   gap: 10px;
   padding: 40px;
-  border: 5px solid lightblue;
+  border: 5px solid lightgray;
   border-radius: 20px;
 
   @media screen and (min-width: 1400px) {

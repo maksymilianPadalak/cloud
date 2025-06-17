@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Chorus Pedal">
+  <EffectPedal title="Chorus Pedal" :class="$style.pedal">
     <div :class="sharedStyles.pedalContent">
       <h2>Rate: {{ rate }}</h2>
       <Knob v-model:effect-parameter="rate" />
@@ -18,3 +18,9 @@ import sharedStyles from '../shared.module.css'
 const rate = ref(5.5)
 const depth = ref(5.5)
 </script>
+
+<style module>
+.pedal {
+  border-color: lightcoral;
+}
+</style>

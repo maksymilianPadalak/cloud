@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Delay Pedal">
+  <EffectPedal title="Delay Pedal" :class="$style.pedal">
     <div :class="sharedStyles.pedalContent">
       <h2>Time: {{ time }}</h2>
       <Knob v-model:effect-parameter="time" />
@@ -18,3 +18,9 @@ import sharedStyles from '../shared.module.css'
 const time = ref(5.5)
 const feedback = ref(5.5)
 </script>
+
+<style module>
+.pedal {
+  border-color: lightseagreen;
+}
+</style>
