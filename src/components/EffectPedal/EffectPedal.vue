@@ -66,6 +66,7 @@ const togglePower = () => {
   border: 5px solid black;
   padding: 5px;
   background-color: lightgray;
+  user-select: none;
   transition:
     background-color 0.2s ease,
     font-size 0.2s ease;
