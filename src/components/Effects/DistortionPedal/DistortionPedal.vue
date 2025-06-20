@@ -1,22 +1,22 @@
 <template>
   <EffectPedal title="Distortion Pedal" :class="$style.pedal" @toggle-power="togglePower">
-    <div :class="$style.pedalContent">
-      <div>
+    <div :class="sharedStyles.pedalContent">
+      <div :class="sharedStyles.knobContainer">
         <h2>Drive: {{ drive }}</h2>
         <Knob v-model:effect-parameter="drive" />
       </div>
 
-      <div>
+      <div :class="sharedStyles.knobContainer">
         <h2>Tone: {{ tone }}</h2>
         <Knob v-model:effect-parameter="tone" />
       </div>
 
-      <div>
+      <div :class="sharedStyles.knobContainer">
         <h2>Wet: {{ wet }}</h2>
         <Knob v-model:effect-parameter="wet" />
       </div>
 
-      <div>
+      <div :class="sharedStyles.knobContainer">
         <h2>Dry: {{ dry }}</h2>
         <Knob v-model:effect-parameter="dry" />
       </div>
@@ -28,6 +28,7 @@
 import Knob from '@/components/Knob/Knob.vue'
 import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
 import { ref } from 'vue'
+import sharedStyles from '../shared.module.css'
 
 const drive = ref(5.5)
 const tone = ref(5.5)
@@ -42,12 +43,5 @@ const togglePower = (isPowerOn: boolean) => {
 <style module>
 .pedal {
   border-color: black;
-}
-
-.pedalContent {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
 }
 </style>

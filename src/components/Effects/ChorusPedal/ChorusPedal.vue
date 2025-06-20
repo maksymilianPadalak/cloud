@@ -1,22 +1,22 @@
 <template>
   <EffectPedal title="Chorus Pedal" :class="$style.pedal" @toggle-power="togglePower">
-    <div :class="$style.pedalContent">
-      <div>
+    <div :class="sharedStyles.pedalContent">
+      <div :class="sharedStyles.knobContainer">
         <h2>Rate: {{ rate }}</h2>
         <Knob v-model:effect-parameter="rate" />
       </div>
 
-      <div>
+      <div :class="sharedStyles.knobContainer">
         <h2>Depth: {{ depth }}</h2>
         <Knob v-model:effect-parameter="depth" />
       </div>
 
-      <div>
+      <div :class="sharedStyles.knobContainer">
         <h2>Wet: {{ wet }}</h2>
         <Knob v-model:effect-parameter="wet" />
       </div>
 
-      <div>
+      <div :class="sharedStyles.knobContainer">
         <h2>Dry: {{ dry }}</h2>
         <Knob v-model:effect-parameter="dry" />
       </div>
@@ -28,6 +28,7 @@
 import Knob from '@/components/Knob/Knob.vue'
 import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
 import { ref } from 'vue'
+import sharedStyles from '../shared.module.css'
 
 const rate = ref(5.5)
 const depth = ref(5.5)
@@ -42,12 +43,5 @@ const togglePower = (isPowerOn: boolean) => {
 <style module>
 .pedal {
   border-color: lightcoral;
-}
-
-.pedalContent {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
 }
 </style>
