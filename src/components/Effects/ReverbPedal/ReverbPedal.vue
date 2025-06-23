@@ -1,5 +1,5 @@
 <template>
-  <EffectPedal title="Reverb Pedal" :class="$style.pedal" @toggle-power="togglePower">
+  <EffectPedal title="Reverb Pedal" :class="$style.pedal" v-model:is-power-on="reverb.on">
     <div :class="sharedStyles.pedalContent">
       <div :class="sharedStyles.knobContainer">
         <h2>Decay: {{ reverb.decay }}</h2>
@@ -35,10 +35,6 @@ const { reverb } = useAmplifier()
 const roomSize = ref(5.5)
 const wet = ref(5.5)
 const dry = ref(5.5)
-
-const togglePower = (isPowerOn: boolean) => {
-  console.log(isPowerOn)
-}
 </script>
 
 <style module>

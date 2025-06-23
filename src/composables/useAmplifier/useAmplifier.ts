@@ -9,7 +9,7 @@ export const useAmplifier = () => {
   const bass = ref(5.5)
   const mid = ref(5.5)
   const treble = ref(5.5)
-  const reverb = reactive({ decay: 5.5 })
+  const reverb = reactive({ on: true, decay: 5.5 })
 
   const getAudioInput = () => {
     navigator.mediaDevices

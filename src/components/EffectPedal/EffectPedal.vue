@@ -6,7 +6,7 @@
       <slot />
     </div>
 
-    <PowerButton @toggle-power="onPowerToggle" />
+    <PowerButton v-model:is-power-on="isPowerOn" />
   </div>
 </template>
 
@@ -17,13 +17,7 @@ defineProps<{
   title: string
 }>()
 
-const emit = defineEmits<{
-  (e: 'togglePower', isPowerOn: boolean): void
-}>()
-
-const onPowerToggle = (isPowerOn: boolean) => {
-  emit('togglePower', isPowerOn)
-}
+const isPowerOn = defineModel<boolean>('isPowerOn', { default: false })
 </script>
 
 <style module>

@@ -1,25 +1,14 @@
 <template>
   <span
     :class="[$style.powerIcon, 'material-symbols-outlined', { [$style.isPowerOn]: isPowerOn }]"
-    @click="togglePower"
+    @click="isPowerOn = !isPowerOn"
   >
     power_settings_new
   </span>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const emit = defineEmits<{
-  (e: 'togglePower', isPowerOn: boolean): void
-}>()
-
-const isPowerOn = ref(false)
-
-const togglePower = () => {
-  isPowerOn.value = !isPowerOn.value
-  emit('togglePower', isPowerOn.value)
-}
+const isPowerOn = defineModel<boolean>('isPowerOn', { default: false })
 </script>
 
 <style module>
