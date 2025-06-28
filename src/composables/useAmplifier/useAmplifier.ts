@@ -1,16 +1,11 @@
-import { onMounted, onUnmounted, reactive, watchEffect } from 'vue'
+import { createAmplifier, type AmplifierProcessor } from '@/processors/amplifierProcessor'
+import { onMounted, onUnmounted } from 'vue'
 
 export const useAmplifier = () => {
   const audioContext = new AudioContext()
 
-  const amplifier = reactive({
-    gain: 5.5,
-    bass: 5.5,
-    mid: 5.5,
-    treble: 5.5,
-    master: 5.5,
-    on: true,
-  })
+  // Create amplifier processor immediately so params are available
+  const amplifierProcessor: AmplifierProcessor = createAmplifier(audioContext)
 
   const getAudioInput = () => {
     navigator.mediaDevices
@@ -24,6 +19,7 @@ export const useAmplifier = () => {
       .then((stream) => {
         const source = audioContext.createMediaStreamSource(stream)
 
+        // Create mono processing chain
         const splitter = audioContext.createChannelSplitter(2)
         const merger = audioContext.createChannelMerger(2)
         const monoGain = audioContext.createGain()
@@ -34,92 +30,22 @@ export const useAmplifier = () => {
         monoGain.connect(merger, 0, 0)
         monoGain.connect(merger, 0, 1)
 
-        const bassNode = audioContext.createBiquadFilter()
-        const midNode = audioContext.createBiquadFilter()
-        const trebleNode = audioContext.createBiquadFilter()
-
-        bassNode.type = 'lowshelf'
-        bassNode.frequency.setValueAtTime(200, audioContext.currentTime)
-
-        midNode.type = 'peaking'
-        midNode.frequency.setValueAtTime(1000, audioContext.currentTime)
-
-        trebleNode.type = 'highshelf'
-        trebleNode.frequency.setValueAtTime(4000, audioContext.currentTime)
-
-        const gainNode = audioContext.createGain()
-        const masterNode = audioContext.createGain()
-
-        merger.connect(gainNode)
-        gainNode.connect(bassNode)
-        bassNode.connect(midNode)
-        midNode.connect(trebleNode)
-        trebleNode.connect(masterNode)
-        masterNode.connect(audioContext.destination)
-
-        const calculateGainValue = (value: number) => {
-          if (value === 0) {
-            return 0
-          } else if (value < 5.5) {
-            return value / 5.5
-          } else {
-            return (value / 11) * 5
-          }
-        }
-
-        //TODO: Adjust master volume so it can be louder
-        const calculateMasterValue = (value: number) => {
-          if (value === 0) {
-            return 0
-          } else if (value <= 11) {
-            return value / 11
-          } else {
-            return 1
-          }
-        }
-
-        const calculateEQValue = (value: number) => {
-          if (value === 0) {
-            return -40
-          } else if (value < 5.5) {
-            return (value - 5.5) * 4
-          } else if (value > 5.5) {
-            return (value - 5.5) * 2
-          } else {
-            return 0
-          }
-        }
-
-        watchEffect(() => {
-          if (amplifier.on) {
-            gainNode.gain.setValueAtTime(
-              calculateGainValue(amplifier.gain),
-              audioContext.currentTime,
-            )
-            bassNode.gain.setValueAtTime(calculateEQValue(amplifier.bass), audioContext.currentTime)
-            midNode.gain.setValueAtTime(calculateEQValue(amplifier.mid), audioContext.currentTime)
-            trebleNode.gain.setValueAtTime(
-              calculateEQValue(amplifier.treble),
-              audioContext.currentTime,
-            )
-            masterNode.gain.setValueAtTime(
-              calculateMasterValue(amplifier.master),
-              audioContext.currentTime,
-            )
-          } else {
-            masterNode.gain.setValueAtTime(0, audioContext.currentTime)
-          }
-        })
+        // Connect audio chain: input -> amplifier -> output
+        merger.connect(amplifierProcessor.inputNode)
+        amplifierProcessor.outputNode.connect(audioContext.destination)
       })
   }
 
   onMounted(getAudioInput)
 
   onUnmounted(() => {
+    amplifierProcessor.destroy()
     if (audioContext) {
       audioContext.close()
     }
   })
 
-  return { amplifier }
+  return {
+    amplifierProcessor,
+  }
 }

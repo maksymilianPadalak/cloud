@@ -1,28 +1,28 @@
 <template>
   <div :class="$style.root">
     <div :class="$style.knobWrapper">
-      <h3>Gain: {{ amplifier.gain }}</h3>
-      <Knob v-model:effect-parameter="amplifier.gain" :class="$style.knobInput" />
+      <h3>Gain: {{ amplifierProcessor.params.gain }}</h3>
+      <Knob v-model:effect-parameter="amplifierProcessor.params.gain" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Bass: {{ amplifier.bass }}</h3>
-      <Knob v-model:effect-parameter="amplifier.bass" :class="$style.knobInput" />
+      <h3>Bass: {{ amplifierProcessor.params.bass }}</h3>
+      <Knob v-model:effect-parameter="amplifierProcessor.params.bass" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Mid: {{ amplifier.mid }}</h3>
-      <Knob v-model:effect-parameter="amplifier.mid" :class="$style.knobInput" />
+      <h3>Mid: {{ amplifierProcessor.params.mid }}</h3>
+      <Knob v-model:effect-parameter="amplifierProcessor.params.mid" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Treble: {{ amplifier.treble }}</h3>
-      <Knob v-model:effect-parameter="amplifier.treble" :class="$style.knobInput" />
+      <h3>Treble: {{ amplifierProcessor.params.treble }}</h3>
+      <Knob v-model:effect-parameter="amplifierProcessor.params.treble" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Master: {{ amplifier.master }}</h3>
-      <Knob v-model:effect-parameter="amplifier.master" :class="$style.knobInput" />
+      <h3>Master: {{ amplifierProcessor.params.master }}</h3>
+      <Knob v-model:effect-parameter="amplifierProcessor.params.master" :class="$style.knobInput" />
     </div>
     <div :class="$style.powerWrapper">
       <h3>Power</h3>
-      <PowerButton v-model:is-power-on="amplifier.on" :class="$style.powerButton" />
+      <PowerButton v-model:is-power-on="amplifierProcessor.params.on" :class="$style.powerButton" />
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ import Knob from '@/components/Knob/Knob.vue'
 import PowerButton from '@/components/PowerButton'
 import { useAmplifier } from '@/composables/useAmplifier'
 
-const { amplifier } = useAmplifier()
+const { amplifierProcessor } = useAmplifier()
 </script>
 
 <style module>

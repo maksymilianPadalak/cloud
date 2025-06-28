@@ -1,1 +1,1 @@
-export { useDelay } from '.'
+export { useDelay } from './useDelay'
