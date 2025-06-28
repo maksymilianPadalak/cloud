@@ -1,13 +1,23 @@
 import { createAmplifier, type AmplifierProcessor } from '@/processors/amplifierProcessor'
 import { onMounted, onUnmounted } from 'vue'
 
-export const useAmplifier = () => {
-  const audioContext = new AudioContext()
+// Singleton instance - shared across all components
+let sharedAudioContext: AudioContext | null = null
+let sharedAmplifierProcessor: AmplifierProcessor | null = null
+let isAudioInputSetup = false
+let componentCount = 0
 
-  // Create amplifier processor immediately so params are available
-  const amplifierProcessor: AmplifierProcessor = createAmplifier(audioContext)
+export const useAmplifier = () => {
+  // Create shared instances on first use
+  if (!sharedAudioContext) {
+    sharedAudioContext = new AudioContext()
+    sharedAmplifierProcessor = createAmplifier(sharedAudioContext)
+  }
 
   const getAudioInput = () => {
+    if (isAudioInputSetup || !sharedAudioContext || !sharedAmplifierProcessor) return
+
+    isAudioInputSetup = true
     navigator.mediaDevices
       .getUserMedia({
         audio: {
@@ -17,12 +27,14 @@ export const useAmplifier = () => {
         },
       })
       .then((stream) => {
-        const source = audioContext.createMediaStreamSource(stream)
+        if (!sharedAudioContext || !sharedAmplifierProcessor) return
+
+        const source = sharedAudioContext.createMediaStreamSource(stream)
 
         // Create mono processing chain
-        const splitter = audioContext.createChannelSplitter(2)
-        const merger = audioContext.createChannelMerger(2)
-        const monoGain = audioContext.createGain()
+        const splitter = sharedAudioContext.createChannelSplitter(2)
+        const merger = sharedAudioContext.createChannelMerger(2)
+        const monoGain = sharedAudioContext.createGain()
 
         source.connect(splitter)
         splitter.connect(monoGain, 0)
@@ -31,21 +43,38 @@ export const useAmplifier = () => {
         monoGain.connect(merger, 0, 1)
 
         // Connect audio chain: input -> amplifier -> output
-        merger.connect(amplifierProcessor.inputNode)
-        amplifierProcessor.outputNode.connect(audioContext.destination)
+        merger.connect(sharedAmplifierProcessor.inputNode)
+        sharedAmplifierProcessor.outputNode.connect(sharedAudioContext.destination)
+      })
+      .catch((error) => {
+        console.error('Error accessing microphone:', error)
+        isAudioInputSetup = false
       })
   }
 
-  onMounted(getAudioInput)
+  onMounted(() => {
+    componentCount++
+    getAudioInput()
+  })
 
   onUnmounted(() => {
-    amplifierProcessor.destroy()
-    if (audioContext) {
-      audioContext.close()
+    componentCount--
+
+    // Only cleanup when the last component unmounts
+    if (componentCount === 0) {
+      if (sharedAmplifierProcessor) {
+        sharedAmplifierProcessor.destroy()
+        sharedAmplifierProcessor = null
+      }
+      if (sharedAudioContext) {
+        sharedAudioContext.close()
+        sharedAudioContext = null
+      }
+      isAudioInputSetup = false
     }
   })
 
   return {
-    amplifierProcessor,
+    amplifierProcessor: sharedAmplifierProcessor!,
   }
 }

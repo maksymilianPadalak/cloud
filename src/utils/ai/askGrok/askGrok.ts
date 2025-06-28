@@ -13,5 +13,11 @@ export const askGrok = async (prompt: string) => {
     prompt: prompt,
   })
 
-  console.log(text)
+  //TODO: validate JSON first
+  return JSON.parse(text) as {
+    gain: number
+    bass: number
+    mid: number
+    treble: number
+  }
 }
