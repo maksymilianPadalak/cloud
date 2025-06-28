@@ -1,20 +1,20 @@
 <template>
   <div :class="$style.root">
     <div :class="$style.knobWrapper">
-      <h3>Gain: {{ gain }}</h3>
-      <Knob v-model:effect-parameter="gain" :class="$style.knobInput" />
+      <h3>Gain: {{ amplifier.gain }}</h3>
+      <Knob v-model:effect-parameter="amplifier.gain" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Bass: {{ bass }}</h3>
-      <Knob v-model:effect-parameter="bass" :class="$style.knobInput" />
+      <h3>Bass: {{ amplifier.bass }}</h3>
+      <Knob v-model:effect-parameter="amplifier.bass" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Mid: {{ mid }}</h3>
-      <Knob v-model:effect-parameter="mid" :class="$style.knobInput" />
+      <h3>Mid: {{ amplifier.mid }}</h3>
+      <Knob v-model:effect-parameter="amplifier.mid" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Treble: {{ treble }}</h3>
-      <Knob v-model:effect-parameter="treble" :class="$style.knobInput" />
+      <h3>Treble: {{ amplifier.treble }}</h3>
+      <Knob v-model:effect-parameter="amplifier.treble" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
       <h3>Master: {{ master }}</h3>
@@ -33,14 +33,14 @@ import PowerButton from '@/components/PowerButton'
 import { useAmplifier } from '@/composables/useAmplifier'
 import { ref } from 'vue'
 
-const { gain, bass, mid, treble } = useAmplifier()
+const { amplifier } = useAmplifier()
 
 const onPowerToggle = (isPowerOn: boolean) => {
   console.log(isPowerOn)
 }
 
 //TODO: Create the master volume control logic after UI is developed
-const master = ref(5.5)
+const master = ref(amplifier.master)
 </script>
 
 <style module>

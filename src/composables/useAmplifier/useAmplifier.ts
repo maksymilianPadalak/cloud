@@ -1,12 +1,16 @@
-import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { onMounted, onUnmounted, reactive, watchEffect } from 'vue'
 
 export const useAmplifier = () => {
   const audioContext = new AudioContext()
 
-  const gain = ref(5.5)
-  const bass = ref(5.5)
-  const mid = ref(5.5)
-  const treble = ref(5.5)
+  const amplifier = reactive({
+    gain: 5.5,
+    bass: 5.5,
+    mid: 5.5,
+    treble: 5.5,
+    master: 5.5,
+    isAmplifierOn: true,
+  })
 
   const getAudioInput = () => {
     navigator.mediaDevices
@@ -75,10 +79,13 @@ export const useAmplifier = () => {
         }
 
         watchEffect(() => {
-          gainNode.gain.setValueAtTime(calculateGainValue(gain.value), audioContext.currentTime)
-          bassNode.gain.setValueAtTime(calculateEQValue(bass.value), audioContext.currentTime)
-          midNode.gain.setValueAtTime(calculateEQValue(mid.value), audioContext.currentTime)
-          trebleNode.gain.setValueAtTime(calculateEQValue(treble.value), audioContext.currentTime)
+          gainNode.gain.setValueAtTime(calculateGainValue(amplifier.gain), audioContext.currentTime)
+          bassNode.gain.setValueAtTime(calculateEQValue(amplifier.bass), audioContext.currentTime)
+          midNode.gain.setValueAtTime(calculateEQValue(amplifier.mid), audioContext.currentTime)
+          trebleNode.gain.setValueAtTime(
+            calculateEQValue(amplifier.treble),
+            audioContext.currentTime,
+          )
         })
       })
   }
@@ -91,5 +98,5 @@ export const useAmplifier = () => {
     }
   })
 
-  return { gain, bass, mid, treble }
+  return { amplifier }
 }
