@@ -17,12 +17,12 @@
       <Knob v-model:effect-parameter="amplifier.treble" :class="$style.knobInput" />
     </div>
     <div :class="$style.knobWrapper">
-      <h3>Master: {{ master }}</h3>
-      <Knob v-model:effect-parameter="master" :class="$style.knobInput" />
+      <h3>Master: {{ amplifier.master }}</h3>
+      <Knob v-model:effect-parameter="amplifier.master" :class="$style.knobInput" />
     </div>
     <div :class="$style.powerWrapper">
       <h3>Power</h3>
-      <PowerButton @toggle-power="onPowerToggle" :class="$style.powerButton" />
+      <PowerButton v-model:is-power-on="amplifier.on" :class="$style.powerButton" />
     </div>
   </div>
 </template>
@@ -31,16 +31,8 @@
 import Knob from '@/components/Knob/Knob.vue'
 import PowerButton from '@/components/PowerButton'
 import { useAmplifier } from '@/composables/useAmplifier'
-import { ref } from 'vue'
 
 const { amplifier } = useAmplifier()
-
-const onPowerToggle = (isPowerOn: boolean) => {
-  console.log(isPowerOn)
-}
-
-//TODO: Create the master volume control logic after UI is developed
-const master = ref(amplifier.master)
 </script>
 
 <style module>
