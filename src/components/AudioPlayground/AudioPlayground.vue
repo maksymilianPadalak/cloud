@@ -4,13 +4,12 @@
       <h2>Amplifier</h2>
       <Amplifier />
     </div>
-    <PedalBoard />
+    <!-- <PedalBoard /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import Amplifier from '@/components/Amplifier/Amplifier.vue'
-import PedalBoard from '@/components/PedalBoard/PedalBoard.vue'
+import Amplifier from '@/components/AmplifierUnit/AmplifierUnit.vue'
 </script>
 
 <style module>

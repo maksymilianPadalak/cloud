@@ -1,15 +1,12 @@
-import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
-import { createImpulseResponse } from './utils/createImpulseResponse/createImpulsReponse'
+import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 
 export const useAmplifier = () => {
   const audioContext = new AudioContext()
-  let convolverNode: ConvolverNode
 
   const gain = ref(5.5)
   const bass = ref(5.5)
   const mid = ref(5.5)
   const treble = ref(5.5)
-  const reverb = reactive({ on: true, decay: 5.5 })
 
   const getAudioInput = () => {
     navigator.mediaDevices
@@ -37,9 +34,6 @@ export const useAmplifier = () => {
         const midNode = audioContext.createBiquadFilter()
         const trebleNode = audioContext.createBiquadFilter()
 
-        convolverNode = audioContext.createConvolver()
-        convolverNode.buffer = createImpulseResponse(audioContext, 10)
-
         bassNode.type = 'lowshelf'
         bassNode.frequency.setValueAtTime(200, audioContext.currentTime)
 
@@ -55,8 +49,7 @@ export const useAmplifier = () => {
         bassNode.connect(midNode)
         midNode.connect(trebleNode)
         trebleNode.connect(gainNode)
-        gainNode.connect(convolverNode)
-        convolverNode.connect(audioContext.destination)
+
         gainNode.connect(audioContext.destination)
 
         const calculateGainValue = (value: number) => {
@@ -87,10 +80,6 @@ export const useAmplifier = () => {
           midNode.gain.setValueAtTime(calculateEQValue(mid.value), audioContext.currentTime)
           trebleNode.gain.setValueAtTime(calculateEQValue(treble.value), audioContext.currentTime)
         })
-
-        watchEffect(() => {
-          convolverNode.buffer = createImpulseResponse(audioContext, reverb.decay)
-        })
       })
   }
 
@@ -102,5 +91,5 @@ export const useAmplifier = () => {
     }
   })
 
-  return { gain, bass, mid, treble, reverb }
+  return { gain, bass, mid, treble }
 }
