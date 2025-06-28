@@ -9,7 +9,7 @@ export const useAmplifier = () => {
     mid: 5.5,
     treble: 5.5,
     master: 5.5,
-    isAmplifierOn: true,
+    on: true,
   })
 
   const getAudioInput = () => {
@@ -48,13 +48,14 @@ export const useAmplifier = () => {
         trebleNode.frequency.setValueAtTime(4000, audioContext.currentTime)
 
         const gainNode = audioContext.createGain()
+        const masterNode = audioContext.createGain()
 
-        merger.connect(bassNode)
+        merger.connect(gainNode)
+        gainNode.connect(bassNode)
         bassNode.connect(midNode)
         midNode.connect(trebleNode)
-        trebleNode.connect(gainNode)
-
-        gainNode.connect(audioContext.destination)
+        trebleNode.connect(masterNode)
+        masterNode.connect(audioContext.destination)
 
         const calculateGainValue = (value: number) => {
           if (value === 0) {
@@ -66,11 +67,22 @@ export const useAmplifier = () => {
           }
         }
 
+        //TODO: Adjust master volume so it can be louder
+        const calculateMasterValue = (value: number) => {
+          if (value === 0) {
+            return 0
+          } else if (value <= 11) {
+            return value / 11
+          } else {
+            return 1
+          }
+        }
+
         const calculateEQValue = (value: number) => {
           if (value === 0) {
             return -40
           } else if (value < 5.5) {
-            return (value - 5.5) * 2
+            return (value - 5.5) * 4
           } else if (value > 5.5) {
             return (value - 5.5) * 2
           } else {
@@ -79,13 +91,24 @@ export const useAmplifier = () => {
         }
 
         watchEffect(() => {
-          gainNode.gain.setValueAtTime(calculateGainValue(amplifier.gain), audioContext.currentTime)
-          bassNode.gain.setValueAtTime(calculateEQValue(amplifier.bass), audioContext.currentTime)
-          midNode.gain.setValueAtTime(calculateEQValue(amplifier.mid), audioContext.currentTime)
-          trebleNode.gain.setValueAtTime(
-            calculateEQValue(amplifier.treble),
-            audioContext.currentTime,
-          )
+          if (amplifier.on) {
+            gainNode.gain.setValueAtTime(
+              calculateGainValue(amplifier.gain),
+              audioContext.currentTime,
+            )
+            bassNode.gain.setValueAtTime(calculateEQValue(amplifier.bass), audioContext.currentTime)
+            midNode.gain.setValueAtTime(calculateEQValue(amplifier.mid), audioContext.currentTime)
+            trebleNode.gain.setValueAtTime(
+              calculateEQValue(amplifier.treble),
+              audioContext.currentTime,
+            )
+            masterNode.gain.setValueAtTime(
+              calculateMasterValue(amplifier.master),
+              audioContext.currentTime,
+            )
+          } else {
+            masterNode.gain.setValueAtTime(0, audioContext.currentTime)
+          }
         })
       })
   }
