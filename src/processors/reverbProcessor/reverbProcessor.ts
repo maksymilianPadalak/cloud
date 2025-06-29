@@ -19,19 +19,20 @@ export const createReverb = (audioContext: AudioContext): ReverbProcessor => {
   const params = reactive({
     decay: 5.5,
     roomSize: 0.5,
-    wet: 0.5,
-    dry: 1,
+    wet: 5.5,
+    dry: 0,
     on: false,
   })
 
   const stopWatcher = watchEffect(() => {
-    if (params.on) {
-      reverbNode.buffer = createImpulseResponse(audioContext, params.decay)
-      dryNode.gain.value = 0
-      wetNode.gain.value = 1
-    } else {
+    reverbNode.buffer = createImpulseResponse(audioContext, params.decay)
+
+    if (!params.on) {
       dryNode.gain.value = 1
       wetNode.gain.value = 0
+    } else {
+      wetNode.gain.value = params.wet / 11
+      dryNode.gain.value = params.dry / 11
     }
   })
 
