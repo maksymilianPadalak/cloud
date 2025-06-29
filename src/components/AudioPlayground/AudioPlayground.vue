@@ -7,12 +7,13 @@
         {{ loading ? 'Loading...' : 'Click me' }}
       </button>
     </div>
-    <!-- <PedalBoard /> -->
+    <PedalBoard />
   </div>
 </template>
 
 <script setup lang="ts">
 import Amplifier from '@/components/AmplifierUnit/AmplifierUnit.vue'
+import PedalBoard from '@/components/PedalBoard/PedalBoard.vue'
 import { useAmplifier } from '@/composables/useAmplifier'
 import { askGrok } from '@/utils/ai/askGrok/askGrok'
 import { ref } from 'vue'
@@ -57,7 +58,6 @@ const handleClick = async () => {
   border-radius: 10px;
   background-color: #000;
   font-size: 24px;
-  font-family: 'Josefin Sans', sans-serif;
   color: #fff;
   border: none;
   cursor: pointer;

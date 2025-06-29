@@ -1,9 +1,13 @@
 import { createAmplifier, type AmplifierProcessor } from '@/processors/amplifierProcessor'
+import { createReverb, type ReverbProcessor } from '@/processors/reverbProcessor'
 import { onMounted, onUnmounted } from 'vue'
+
+//TODO: rename it to useGuitarChain or anything like that
 
 // Singleton instance - shared across all components
 let sharedAudioContext: AudioContext | null = null
 let sharedAmplifierProcessor: AmplifierProcessor | null = null
+let sharedReverbProcessor: ReverbProcessor | null = null
 let isAudioInputSetup = false
 let componentCount = 0
 
@@ -12,10 +16,20 @@ export const useAmplifier = () => {
   if (!sharedAudioContext) {
     sharedAudioContext = new AudioContext()
     sharedAmplifierProcessor = createAmplifier(sharedAudioContext)
+    sharedReverbProcessor = createReverb(sharedAudioContext)
   }
 
   const getAudioInput = () => {
-    if (isAudioInputSetup || !sharedAudioContext || !sharedAmplifierProcessor) return
+    // Guard clause: Prevent duplicate audio setup and ensure required dependencies exist
+    // - isAudioInputSetup: prevents multiple microphone streams from being created
+    // - !sharedAudioContext || !sharedAmplifierProcessor: ensures shared resources are available
+    if (
+      isAudioInputSetup ||
+      !sharedAudioContext ||
+      !sharedAmplifierProcessor ||
+      !sharedReverbProcessor
+    )
+      return
 
     isAudioInputSetup = true
     navigator.mediaDevices
@@ -27,7 +41,7 @@ export const useAmplifier = () => {
         },
       })
       .then((stream) => {
-        if (!sharedAudioContext || !sharedAmplifierProcessor) return
+        if (!sharedAudioContext || !sharedAmplifierProcessor || !sharedReverbProcessor) return
 
         const source = sharedAudioContext.createMediaStreamSource(stream)
 
@@ -43,7 +57,8 @@ export const useAmplifier = () => {
         monoGain.connect(merger, 0, 1)
 
         // Connect audio chain: input -> amplifier -> output
-        merger.connect(sharedAmplifierProcessor.inputNode)
+        merger.connect(sharedReverbProcessor.inputNode)
+        sharedReverbProcessor.outputNode.connect(sharedAmplifierProcessor.inputNode)
         sharedAmplifierProcessor.outputNode.connect(sharedAudioContext.destination)
       })
       .catch((error) => {
@@ -76,5 +91,6 @@ export const useAmplifier = () => {
 
   return {
     amplifierProcessor: sharedAmplifierProcessor!,
+    reverbProcessor: sharedReverbProcessor!,
   }
 }

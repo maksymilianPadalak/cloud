@@ -1,24 +1,28 @@
 <template>
-  <EffectPedal title="Reverb Pedal" :class="$style.pedal">
+  <EffectPedal
+    title="Reverb Pedal"
+    :class="$style.pedal"
+    v-model:is-power-on="reverbProcessor.params.on"
+  >
     <div :class="sharedStyles.pedalContent">
       <div :class="sharedStyles.knobContainer">
-        <h2>Decay: {{ decay }}</h2>
-        <Knob v-model:effect-parameter="decay" />
+        <h2>Decay: {{ reverbProcessor.params.decay }}</h2>
+        <Knob v-model:effect-parameter="reverbProcessor.params.decay" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Room Size: {{ roomSize }}</h2>
-        <Knob v-model:effect-parameter="roomSize" />
+        <h2>Room Size: {{ reverbProcessor.params.roomSize }}</h2>
+        <Knob v-model:effect-parameter="reverbProcessor.params.roomSize" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Wet: {{ wet }}</h2>
-        <Knob v-model:effect-parameter="wet" />
+        <h2>Wet: {{ reverbProcessor.params.wet }}</h2>
+        <Knob v-model:effect-parameter="reverbProcessor.params.wet" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Dry: {{ dry }}</h2>
-        <Knob v-model:effect-parameter="dry" />
+        <h2>Dry: {{ reverbProcessor.params.dry }}</h2>
+        <Knob v-model:effect-parameter="reverbProcessor.params.dry" />
       </div>
     </div>
   </EffectPedal>
@@ -27,13 +31,10 @@
 <script setup lang="ts">
 import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
 import Knob from '@/components/Knob/Knob.vue'
-import { ref } from 'vue'
+import { useAmplifier } from '@/composables/useAmplifier'
 import sharedStyles from '../shared.module.css'
 
-const roomSize = ref(5.5)
-const wet = ref(5.5)
-const dry = ref(5.5)
-const decay = ref(5.5)
+const { reverbProcessor } = useAmplifier()
 </script>
 
 <style module>

@@ -1,3 +1,5 @@
+import type { Processor } from '../types'
+
 export type AmplifierParams = {
   gain: number
   bass: number
@@ -7,9 +9,4 @@ export type AmplifierParams = {
   on: boolean
 }
 
-export type AmplifierProcessor = {
-  inputNode: AudioNode
-  outputNode: AudioNode
-  params: AmplifierParams
-  destroy: () => void
-}
+export type AmplifierProcessor = Processor<AmplifierParams>
