@@ -3,7 +3,9 @@
     <div :class="$style.amplifierWrapper">
       <h2>Amplifier</h2>
       <Amplifier />
-      <button @click="handleClick">Click me</button>
+      <button :class="$style.button" @click="handleClick" :disabled="loading">
+        {{ loading ? 'Loading...' : 'Click me' }}
+      </button>
     </div>
     <!-- <PedalBoard /> -->
   </div>
@@ -13,19 +15,22 @@
 import Amplifier from '@/components/AmplifierUnit/AmplifierUnit.vue'
 import { useAmplifier } from '@/composables/useAmplifier'
 import { askGrok } from '@/utils/ai/askGrok/askGrok'
+import { ref } from 'vue'
 
 const { amplifierProcessor } = useAmplifier()
 
+const loading = ref(false)
+
 const handleClick = async () => {
+  //TODO: handle errors
+  loading.value = true
   const newAmplifierParams = await askGrok('Make this sound like a bass guitar')
-  console.log('newAmplifierParams:', newAmplifierParams)
+  loading.value = false
 
   amplifierProcessor.params.bass = newAmplifierParams.bass
   amplifierProcessor.params.mid = newAmplifierParams.mid
   amplifierProcessor.params.treble = newAmplifierParams.treble
   amplifierProcessor.params.gain = newAmplifierParams.gain
-
-  console.log('amplifierProcessor.params:', amplifierProcessor.params)
 }
 </script>
 
@@ -45,5 +50,27 @@ const handleClick = async () => {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.button {
+  padding: 20px 20px;
+  border-radius: 10px;
+  background-color: #000;
+  font-size: 24px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.button:hover {
+  background-color: #333;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 </style>
