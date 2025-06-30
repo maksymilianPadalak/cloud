@@ -5,7 +5,7 @@ export const createDelay = (audioContext: AudioContext): DelayProcessor => {
   const inputNode = audioContext.createGain()
   const dryNode = audioContext.createGain()
   const wetNode = audioContext.createGain()
-  const delayNode = audioContext.createDelay()
+  const delayNode = audioContext.createDelay(20)
   const outputNode = audioContext.createGain()
 
   inputNode.connect(dryNode)
@@ -25,6 +25,9 @@ export const createDelay = (audioContext: AudioContext): DelayProcessor => {
 
   const stopWatcher = watchEffect(() => {
     delayNode.delayTime.value = params.time
+
+    console.log(delayNode.delayTime.value)
+    console.log(params.time)
 
     if (!params.on) {
       dryNode.gain.value = 1
