@@ -6,12 +6,12 @@
       <slot />
     </div>
 
-    <PowerButton v-model:is-power-on="isPowerOn" />
+    <MusicUnitButton material-symbols-name="power_settings_new" v-model:is-power-on="isPowerOn" />
   </div>
 </template>
 
 <script setup lang="ts">
-import PowerButton from '@/components/PowerButton'
+import MusicUnitButton from '@/components/MusicUnitButton'
 
 defineProps<{
   title: string

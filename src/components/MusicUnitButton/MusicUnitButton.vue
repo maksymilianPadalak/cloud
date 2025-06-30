@@ -1,18 +1,24 @@
 <template>
   <span
-    :class="[$style.powerIcon, 'material-symbols-outlined', { [$style.isPowerOn]: isPowerOn }]"
+    :class="[$style.musicUnitIcon, `material-symbols-outlined`, { [$style.isPowerOn]: isPowerOn }]"
     @click="isPowerOn = !isPowerOn"
   >
-    power_settings_new
+    {{ materialSymbolsName }}
   </span>
 </template>
 
 <script setup lang="ts">
+defineProps<{
+  //Name of the material symbols icon
+  //Icons: https://fonts.google.com/icons?icon.size=24&icon.color=%231f1f1f
+  materialSymbolsName: string
+}>()
+
 const isPowerOn = defineModel<boolean>('isPowerOn', { default: false })
 </script>
 
 <style module>
-.powerIcon {
+.musicUnitIcon {
   font-size: 50px;
   color: black;
   cursor: pointer;
@@ -26,12 +32,12 @@ const isPowerOn = defineModel<boolean>('isPowerOn', { default: false })
     background-color 0.2s ease,
     transform 0.2s ease;
 
-  &.isPowerOn {
-    background-color: lightcoral;
-  }
-
   &:hover {
     transform: scale(1.05);
+  }
+
+  &.isPowerOn {
+    background-color: lightcoral;
   }
 }
 </style>

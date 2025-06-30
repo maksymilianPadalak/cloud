@@ -21,15 +21,23 @@
       <Knob v-model:effect-parameter="amplifierProcessor.params.master" :class="$style.knobInput" />
     </div>
     <div :class="$style.powerWrapper">
+      <h3>Ai</h3>
+      <MusicUnitButton :class="$style.aiButton" material-symbols-name="network_intelligence" />
+    </div>
+    <div :class="$style.powerWrapper">
       <h3>Power</h3>
-      <PowerButton v-model:is-power-on="amplifierProcessor.params.on" :class="$style.powerButton" />
+      <MusicUnitButton
+        :class="$style.powerButton"
+        material-symbols-name="power_settings_new"
+        v-model:is-power-on="amplifierProcessor.params.on"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Knob from '@/components/Knob/Knob.vue'
-import PowerButton from '@/components/PowerButton'
+import MusicUnitButton from '@/components/MusicUnitButton'
 import { useAmplifier } from '@/composables/useAmplifier'
 
 const { amplifierProcessor } = useAmplifier()
@@ -39,7 +47,7 @@ const { amplifierProcessor } = useAmplifier()
 /* TODO: Adjust the UI for mobile/tablet resolutions */
 .root {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   align-items: center;
   border: 5px solid burlywood;
   height: 250px;
@@ -66,7 +74,8 @@ const { amplifierProcessor } = useAmplifier()
   margin: 10px;
 }
 
-.powerButton {
+.powerButton,
+.aiButton {
   margin-top: 10px;
 }
 </style>
