@@ -1,5 +1,5 @@
 <template>
-  <!-- TODO: Close modal on escape key -->
+  <!-- Modal closes on escape key -->
   <div :class="$style.overlay" @click="emit('close')">
     <div :class="$style.modalContent" @click.stop>
       <button :class="$style.closeButton" @click="emit('close')">x</button>
@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { useAmplifier } from '@/composables/useAmplifier'
 import { askGrok } from '@/utils/ai/askGrok/askGrok'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -35,6 +35,20 @@ const { amplifierProcessor } = useAmplifier()
 
 const loading = ref(false)
 const prompt = ref('')
+
+const handleEscapeKey = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    emit('close')
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleEscapeKey)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleEscapeKey)
+})
 
 const handleClick = async () => {
   //TODO: handle errors
