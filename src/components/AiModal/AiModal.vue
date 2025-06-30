@@ -12,6 +12,7 @@
           placeholder="e.g. I want to sound like David Gilmour from Pink Floyd"
           rows="10"
           v-model="prompt"
+          @keydown.enter.stop.prevent="handleClick"
         />
         <button :class="$style.submitButton" @click="handleClick" :disabled="loading">
           {{ loading ? 'Loading...' : 'Submit' }}
