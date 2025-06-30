@@ -1,8 +1,5 @@
 <template>
-  <span
-    :class="[$style.musicUnitIcon, `material-symbols-outlined`, { [$style.isPowerOn]: isPowerOn }]"
-    @click="isPowerOn = !isPowerOn"
-  >
+  <span :class="[$style.musicUnitIcon, `material-symbols-outlined`]" @click="onClick">
     {{ materialSymbolsName }}
   </span>
 </template>
@@ -14,7 +11,11 @@ defineProps<{
   materialSymbolsName: string
 }>()
 
-const isPowerOn = defineModel<boolean>('isPowerOn', { default: false })
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
+
+const onClick = () => emit('click')
 </script>
 
 <style module>
@@ -34,10 +35,6 @@ const isPowerOn = defineModel<boolean>('isPowerOn', { default: false })
 
   &:hover {
     transform: scale(1.05);
-  }
-
-  &.isPowerOn {
-    background-color: lightcoral;
   }
 }
 </style>

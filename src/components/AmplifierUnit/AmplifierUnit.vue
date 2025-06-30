@@ -26,11 +26,7 @@
     </div>
     <div :class="$style.powerWrapper">
       <h3>Power</h3>
-      <MusicUnitButton
-        :class="$style.powerButton"
-        material-symbols-name="power_settings_new"
-        v-model:is-power-on="amplifierProcessor.params.on"
-      />
+      <PowerButton v-model:is-power-on="amplifierProcessor.params.on" :class="$style.powerButton" />
     </div>
   </div>
 </template>
@@ -38,6 +34,7 @@
 <script setup lang="ts">
 import Knob from '@/components/Knob/Knob.vue'
 import MusicUnitButton from '@/components/MusicUnitButton'
+import PowerButton from '@/components/PowerButton'
 import { useAmplifier } from '@/composables/useAmplifier'
 
 const { amplifierProcessor } = useAmplifier()
@@ -77,5 +74,9 @@ const { amplifierProcessor } = useAmplifier()
 .powerButton,
 .aiButton {
   margin-top: 10px;
+}
+
+.aiButton {
+  background-color: lightblue;
 }
 </style>
