@@ -22,21 +22,30 @@
     </div>
     <div :class="$style.powerWrapper">
       <h3>Ai</h3>
-      <MusicUnitButton :class="$style.aiButton" material-symbols-name="network_intelligence" />
+      <MusicUnitButton
+        :class="$style.aiButton"
+        material-symbols-name="network_intelligence"
+        @click="isAiModalOpen = true"
+      />
     </div>
     <div :class="$style.powerWrapper">
       <h3>Power</h3>
       <PowerButton v-model:is-power-on="amplifierProcessor.params.on" :class="$style.powerButton" />
     </div>
+    <AiModal v-if="isAiModalOpen" @close="isAiModalOpen = false" />
   </div>
 </template>
 
 <script setup lang="ts">
+import AiModal from '@/components/AiModal'
 import Knob from '@/components/Knob/Knob.vue'
 import MusicUnitButton from '@/components/MusicUnitButton'
 import PowerButton from '@/components/PowerButton'
-import { useAmplifier } from '@/composables/useAmplifier'
 
+import { useAmplifier } from '@/composables/useAmplifier'
+import { ref } from 'vue'
+
+const isAiModalOpen = ref(false)
 const { amplifierProcessor } = useAmplifier()
 </script>
 
