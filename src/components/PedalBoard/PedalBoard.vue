@@ -3,14 +3,15 @@
     <h2>Pedal Board</h2>
     <div :class="$style.pedalBoard">
       <ReverbPedal />
-      <!-- <DelayPedal />
-      <ChorusPedal />
+      <DelayPedal />
+      <!-- <ChorusPedal />
       <DistortionPedal /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import DelayPedal from '@/components/Effects/DelayPedal'
 import ReverbPedal from '@/components/Effects/ReverbPedal'
 </script>
 

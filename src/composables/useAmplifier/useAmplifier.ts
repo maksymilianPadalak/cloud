@@ -1,4 +1,6 @@
 import { createAmplifier, type AmplifierProcessor } from '@/processors/amplifierProcessor'
+import { createDelay } from '@/processors/delayProcessor'
+import type { DelayProcessor } from '@/processors/delayProcessor/type'
 import { createReverb, type ReverbProcessor } from '@/processors/reverbProcessor'
 import { onMounted, onUnmounted } from 'vue'
 
@@ -8,6 +10,8 @@ import { onMounted, onUnmounted } from 'vue'
 let sharedAudioContext: AudioContext | null = null
 let sharedAmplifierProcessor: AmplifierProcessor | null = null
 let sharedReverbProcessor: ReverbProcessor | null = null
+let sharedDelayProcessor: DelayProcessor | null = null
+
 let isAudioInputSetup = false
 let componentCount = 0
 
@@ -17,6 +21,7 @@ export const useAmplifier = () => {
     sharedAudioContext = new AudioContext()
     sharedAmplifierProcessor = createAmplifier(sharedAudioContext)
     sharedReverbProcessor = createReverb(sharedAudioContext)
+    sharedDelayProcessor = createDelay(sharedAudioContext)
   }
 
   const getAudioInput = () => {
@@ -27,7 +32,8 @@ export const useAmplifier = () => {
       isAudioInputSetup ||
       !sharedAudioContext ||
       !sharedAmplifierProcessor ||
-      !sharedReverbProcessor
+      !sharedReverbProcessor ||
+      !sharedDelayProcessor
     )
       return
 
@@ -41,7 +47,13 @@ export const useAmplifier = () => {
         },
       })
       .then((stream) => {
-        if (!sharedAudioContext || !sharedAmplifierProcessor || !sharedReverbProcessor) return
+        if (
+          !sharedAudioContext ||
+          !sharedAmplifierProcessor ||
+          !sharedReverbProcessor ||
+          !sharedDelayProcessor
+        )
+          return
 
         const source = sharedAudioContext.createMediaStreamSource(stream)
 
@@ -59,7 +71,8 @@ export const useAmplifier = () => {
         // Connect audio chain: input -> amplifier -> output
         merger.connect(sharedReverbProcessor.inputNode)
         sharedReverbProcessor.outputNode.connect(sharedAmplifierProcessor.inputNode)
-        sharedAmplifierProcessor.outputNode.connect(sharedAudioContext.destination)
+        sharedAmplifierProcessor.outputNode.connect(sharedDelayProcessor.inputNode)
+        sharedDelayProcessor.outputNode.connect(sharedAudioContext.destination)
       })
       .catch((error) => {
         console.error('Error accessing microphone:', error)
@@ -89,8 +102,10 @@ export const useAmplifier = () => {
     }
   })
 
+  //TODO: remove non-null assertions
   return {
     amplifierProcessor: sharedAmplifierProcessor!,
     reverbProcessor: sharedReverbProcessor!,
+    delayProcessor: sharedDelayProcessor!,
   }
 }

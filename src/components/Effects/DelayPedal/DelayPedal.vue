@@ -1,43 +1,40 @@
 <template>
-  <EffectPedal title="Delay Pedal" :class="$style.pedal" @toggle-power="togglePower">
+  <EffectPedal
+    title="Delay Pedal"
+    :class="$style.pedal"
+    v-model:is-power-on="delayProcessor.params.on"
+  >
     <div :class="sharedStyles.pedalContent">
       <div :class="sharedStyles.knobContainer">
-        <h2>Time: {{ time }}</h2>
-        <Knob v-model:effect-parameter="time" />
+        <h2>Time: {{ delayProcessor.params.time }}</h2>
+        <Knob v-model:effect-parameter="delayProcessor.params.time" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Feedback: {{ feedback }}</h2>
-        <Knob v-model:effect-parameter="feedback" />
+        <h2>Feedback: {{ delayProcessor.params.feedback }}</h2>
+        <Knob v-model:effect-parameter="delayProcessor.params.feedback" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Wet: {{ wet }}</h2>
-        <Knob v-model:effect-parameter="wet" />
+        <h2>Wet: {{ delayProcessor.params.wet }}</h2>
+        <Knob v-model:effect-parameter="delayProcessor.params.wet" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Dry: {{ dry }}</h2>
-        <Knob v-model:effect-parameter="dry" />
+        <h2>Dry: {{ delayProcessor.params.dry }}</h2>
+        <Knob v-model:effect-parameter="delayProcessor.params.dry" />
       </div>
     </div>
   </EffectPedal>
 </template>
 
 <script setup lang="ts">
-import Knob from '@/components/Knob/Knob.vue'
 import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
-import { ref } from 'vue'
+import Knob from '@/components/Knob/Knob.vue'
+import { useAmplifier } from '@/composables/useAmplifier/useAmplifier'
 import sharedStyles from '../shared.module.css'
 
-const time = ref(5.5)
-const feedback = ref(5.5)
-const wet = ref(5.5)
-const dry = ref(5.5)
-
-const togglePower = (isPowerOn: boolean) => {
-  console.log(isPowerOn)
-}
+const { delayProcessor } = useAmplifier()
 </script>
 
 <style module>

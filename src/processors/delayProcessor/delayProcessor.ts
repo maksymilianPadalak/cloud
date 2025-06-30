@@ -1,31 +1,30 @@
 import { reactive, watchEffect } from 'vue'
-import type { ReverbParams, ReverbProcessor } from './types'
-import { createImpulseResponse } from './utils'
+import type { DelayParams, DelayProcessor } from './type'
 
-export const createReverb = (audioContext: AudioContext): ReverbProcessor => {
+export const createDelay = (audioContext: AudioContext): DelayProcessor => {
   const inputNode = audioContext.createGain()
   const dryNode = audioContext.createGain()
   const wetNode = audioContext.createGain()
-  const reverbNode = audioContext.createConvolver()
+  const delayNode = audioContext.createDelay()
   const outputNode = audioContext.createGain()
 
   inputNode.connect(dryNode)
   dryNode.connect(outputNode)
 
-  inputNode.connect(reverbNode)
-  reverbNode.connect(wetNode)
+  inputNode.connect(delayNode)
+  delayNode.connect(wetNode)
   wetNode.connect(outputNode)
 
-  const params: ReverbParams = reactive({
-    decay: 5.5,
-    roomSize: 0.5,
+  const params: DelayParams = reactive({
+    time: 0.5,
+    feedback: 0.5,
     wet: 3.0,
     dry: 8.0,
     on: false,
   })
 
   const stopWatcher = watchEffect(() => {
-    reverbNode.buffer = createImpulseResponse(audioContext, params.decay, params.roomSize)
+    delayNode.delayTime.value = params.time
 
     if (!params.on) {
       dryNode.gain.value = 1
@@ -41,7 +40,7 @@ export const createReverb = (audioContext: AudioContext): ReverbProcessor => {
     outputNode: outputNode,
     params,
     destroy: () => {
-      reverbNode.disconnect()
+      delayNode.disconnect()
       dryNode.disconnect()
       wetNode.disconnect()
       inputNode.disconnect()

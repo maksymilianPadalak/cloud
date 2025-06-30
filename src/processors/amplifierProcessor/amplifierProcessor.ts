@@ -1,5 +1,5 @@
 import { reactive, watchEffect } from 'vue'
-import type { AmplifierProcessor } from './types'
+import type { AmplifierParams, AmplifierProcessor } from './types'
 import { calculateEQValue, calculateGainValue, calculateMasterValue } from './utils'
 
 export const createAmplifier = (audioContext: AudioContext): AmplifierProcessor => {
@@ -23,7 +23,7 @@ export const createAmplifier = (audioContext: AudioContext): AmplifierProcessor 
   midNode.connect(trebleNode)
   trebleNode.connect(masterNode)
 
-  const params = reactive({
+  const params: AmplifierParams = reactive({
     gain: 5.5,
     bass: 5.5,
     mid: 5.5,
