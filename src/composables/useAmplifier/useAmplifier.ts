@@ -4,7 +4,7 @@ import { createDelay } from '@/processors/delayProcessor'
 import type { DelayProcessor } from '@/processors/delayProcessor/type'
 import type { DistortionProcessor } from '@/processors/distortionProcessor'
 import { createReverb, type ReverbProcessor } from '@/processors/reverbProcessor'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, reactive } from 'vue'
 
 //TODO: rename it to useGuitarChain or anything like that
 
@@ -15,7 +15,7 @@ let sharedReverbProcessor: ReverbProcessor | null = null
 let sharedDelayProcessor: DelayProcessor | null = null
 
 //TODO: replace it with real processor
-const mockedChorusProcessor: ChorusProcessor = {
+const mockedChorusProcessor: ChorusProcessor = reactive({
   inputNode: new GainNode(new AudioContext()),
   outputNode: new GainNode(new AudioContext()),
   params: {
@@ -26,10 +26,10 @@ const mockedChorusProcessor: ChorusProcessor = {
     dry: 5.5,
   },
   destroy: () => {},
-}
+})
 
 //TODO: replace it with real processor
-const mockedDistortionProcessor: DistortionProcessor = {
+const mockedDistortionProcessor: DistortionProcessor = reactive({
   inputNode: new GainNode(new AudioContext()),
   outputNode: new GainNode(new AudioContext()),
   params: {
@@ -40,7 +40,7 @@ const mockedDistortionProcessor: DistortionProcessor = {
     dry: 5.5,
   },
   destroy: () => {},
-}
+})
 
 let isAudioInputSetup = false
 let componentCount = 0

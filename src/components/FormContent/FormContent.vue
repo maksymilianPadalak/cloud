@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { useAmplifier } from '@/composables/useAmplifier'
-import { askGrok } from '@/utils/ai/askGrok/askGrok'
+import { askGrok } from '@/utils/ai/askGrok'
 import { computed, ref } from 'vue'
 
 const emit = defineEmits<{
@@ -51,23 +51,31 @@ const handleEnterKey = () => {
 const loadingDots = ref(0)
 
 const submitForm = async () => {
-  //TODO: handle errors
   loading.value = true
 
   const interval = setInterval(() => {
     loadingDots.value = (loadingDots.value + 1) % 4
   }, 300)
 
-  const newAmplifierParams = await askGrok(prompt.value)
-  loading.value = false
-  clearInterval(interval)
+  try {
+    const newSoundParams = await askGrok(prompt.value)
 
-  amplifierProcessor.params.bass = newAmplifierParams.bass
-  amplifierProcessor.params.mid = newAmplifierParams.mid
-  amplifierProcessor.params.treble = newAmplifierParams.treble
-  amplifierProcessor.params.gain = newAmplifierParams.gain
+    // Set all amplifier parameters
+    amplifierProcessor.params.bass = newSoundParams.amplifier.bass
+    amplifierProcessor.params.mid = newSoundParams.amplifier.mid
+    amplifierProcessor.params.treble = newSoundParams.amplifier.treble
+    amplifierProcessor.params.gain = newSoundParams.amplifier.gain
+    amplifierProcessor.params.master = newSoundParams.amplifier.master
 
-  emit('submit')
+    emit('submit')
+  } catch (error) {
+    console.error('Error getting sound parameters from AI:', error)
+    // You could show a user-friendly error message here
+    alert('Sorry, there was an error processing your request. Please try again.')
+  } finally {
+    loading.value = false
+    clearInterval(interval)
+  }
 }
 </script>
 
