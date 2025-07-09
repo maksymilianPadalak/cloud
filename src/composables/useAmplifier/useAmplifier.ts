@@ -1,6 +1,8 @@
 import { createAmplifier, type AmplifierProcessor } from '@/processors/amplifierProcessor'
+import type { ChorusProcessor } from '@/processors/chorusProcessor'
 import { createDelay } from '@/processors/delayProcessor'
 import type { DelayProcessor } from '@/processors/delayProcessor/type'
+import type { DistortionProcessor } from '@/processors/distortionProcessor'
 import { createReverb, type ReverbProcessor } from '@/processors/reverbProcessor'
 import { onMounted, onUnmounted } from 'vue'
 
@@ -11,6 +13,34 @@ let sharedAudioContext: AudioContext | null = null
 let sharedAmplifierProcessor: AmplifierProcessor | null = null
 let sharedReverbProcessor: ReverbProcessor | null = null
 let sharedDelayProcessor: DelayProcessor | null = null
+
+//TODO: replace it with real processor
+const mockedChorusProcessor: ChorusProcessor = {
+  inputNode: new GainNode(new AudioContext()),
+  outputNode: new GainNode(new AudioContext()),
+  params: {
+    on: false,
+    rate: 5.5,
+    depth: 5.5,
+    wet: 5.5,
+    dry: 5.5,
+  },
+  destroy: () => {},
+}
+
+//TODO: replace it with real processor
+const mockedDistortionProcessor: DistortionProcessor = {
+  inputNode: new GainNode(new AudioContext()),
+  outputNode: new GainNode(new AudioContext()),
+  params: {
+    on: false,
+    drive: 5.5,
+    tone: 5.5,
+    wet: 5.5,
+    dry: 5.5,
+  },
+  destroy: () => {},
+}
 
 let isAudioInputSetup = false
 let componentCount = 0
@@ -107,5 +137,7 @@ export const useAmplifier = () => {
     amplifierProcessor: sharedAmplifierProcessor!,
     reverbProcessor: sharedReverbProcessor!,
     delayProcessor: sharedDelayProcessor!,
+    chorusProcessor: mockedChorusProcessor,
+    distortionProcessor: mockedDistortionProcessor,
   }
 }

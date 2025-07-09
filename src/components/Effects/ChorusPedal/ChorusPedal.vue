@@ -1,43 +1,40 @@
 <template>
-  <EffectPedal title="Chorus Pedal" :class="$style.pedal" @toggle-power="togglePower">
+  <EffectPedal
+    title="Chorus Pedal"
+    :class="$style.pedal"
+    v-model:is-power-on="chorusProcessor.params.on"
+  >
     <div :class="sharedStyles.pedalContent">
       <div :class="sharedStyles.knobContainer">
-        <h2>Rate: {{ rate }}</h2>
-        <Knob v-model:effect-parameter="rate" />
+        <h2>Rate: {{ chorusProcessor.params.rate }}</h2>
+        <Knob v-model:effect-parameter="chorusProcessor.params.rate" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Depth: {{ depth }}</h2>
-        <Knob v-model:effect-parameter="depth" />
+        <h2>Depth: {{ chorusProcessor.params.depth }}</h2>
+        <Knob v-model:effect-parameter="chorusProcessor.params.depth" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Wet: {{ wet }}</h2>
-        <Knob v-model:effect-parameter="wet" />
+        <h2>Wet: {{ chorusProcessor.params.wet }}</h2>
+        <Knob v-model:effect-parameter="chorusProcessor.params.wet" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Dry: {{ dry }}</h2>
-        <Knob v-model:effect-parameter="dry" />
+        <h2>Dry: {{ chorusProcessor.params.dry }}</h2>
+        <Knob v-model:effect-parameter="chorusProcessor.params.dry" />
       </div>
     </div>
   </EffectPedal>
 </template>
 
 <script setup lang="ts">
-import Knob from '@/components/Knob/Knob.vue'
 import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
-import { ref } from 'vue'
+import Knob from '@/components/Knob/Knob.vue'
+import { useAmplifier } from '@/composables/useAmplifier/useAmplifier'
 import sharedStyles from '../shared.module.css'
 
-const rate = ref(5.5)
-const depth = ref(5.5)
-const wet = ref(5.5)
-const dry = ref(5.5)
-
-const togglePower = (isPowerOn: boolean) => {
-  console.log(isPowerOn)
-}
+const { chorusProcessor } = useAmplifier()
 </script>
 
 <style module>

@@ -1,43 +1,40 @@
 <template>
-  <EffectPedal title="Distortion Pedal" :class="$style.pedal" @toggle-power="togglePower">
+  <EffectPedal
+    title="Distortion Pedal"
+    :class="$style.pedal"
+    v-model:is-power-on="distortionProcessor.params.on"
+  >
     <div :class="sharedStyles.pedalContent">
       <div :class="sharedStyles.knobContainer">
-        <h2>Drive: {{ drive }}</h2>
-        <Knob v-model:effect-parameter="drive" />
+        <h2>Drive: {{ distortionProcessor.params.drive }}</h2>
+        <Knob v-model:effect-parameter="distortionProcessor.params.drive" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Tone: {{ tone }}</h2>
-        <Knob v-model:effect-parameter="tone" />
+        <h2>Tone: {{ distortionProcessor.params.tone }}</h2>
+        <Knob v-model:effect-parameter="distortionProcessor.params.tone" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Wet: {{ wet }}</h2>
-        <Knob v-model:effect-parameter="wet" />
+        <h2>Wet: {{ distortionProcessor.params.wet }}</h2>
+        <Knob v-model:effect-parameter="distortionProcessor.params.wet" />
       </div>
 
       <div :class="sharedStyles.knobContainer">
-        <h2>Dry: {{ dry }}</h2>
-        <Knob v-model:effect-parameter="dry" />
+        <h2>Dry: {{ distortionProcessor.params.dry }}</h2>
+        <Knob v-model:effect-parameter="distortionProcessor.params.dry" />
       </div>
     </div>
   </EffectPedal>
 </template>
 
 <script setup lang="ts">
-import Knob from '@/components/Knob/Knob.vue'
 import EffectPedal from '@/components/EffectPedal/EffectPedal.vue'
-import { ref } from 'vue'
+import Knob from '@/components/Knob/Knob.vue'
+import { useAmplifier } from '@/composables/useAmplifier/useAmplifier'
 import sharedStyles from '../shared.module.css'
 
-const drive = ref(5.5)
-const tone = ref(5.5)
-const wet = ref(5.5)
-const dry = ref(5.5)
-
-const togglePower = (isPowerOn: boolean) => {
-  console.log(isPowerOn)
-}
+const { distortionProcessor } = useAmplifier()
 </script>
 
 <style module>
