@@ -8,6 +8,11 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     // component: HomeView,
     component: AudioPlaygroundView,
   },
+  {
+    path: '/wasm',
+    name: 'Wasm',
+    component: () => import('@/views/WasmView'),
+  },
   // {
   //   path: '/tuner',
   //   name: 'Tuner',
